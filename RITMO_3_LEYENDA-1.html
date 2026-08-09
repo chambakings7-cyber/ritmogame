@@ -1,0 +1,770 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>RITMO — Carrera Musical</title>
+<style>
+:root{--bg:#07070b;--panel:#11111a;--panel2:#171722;--line:#2b2b3b;--orange:#ff7a00;--pink:#ff3d81;--purple:#8b5cf6;--green:#48e38b;--red:#ff5c69;--blue:#4aa3ff;--text:#fff;--muted:#9b9baa;--glow:0 0 32px rgba(255,122,0,.18)}
+*{box-sizing:border-box}html{background:var(--bg)}body{margin:0;background:radial-gradient(circle at 10% 0%,rgba(139,92,246,.2),transparent 28%),radial-gradient(circle at 90% 10%,rgba(255,61,129,.15),transparent 25%),#07070b;color:var(--text);font-family:Inter,system-ui,Arial,sans-serif}button,input,select{font:inherit}button{cursor:pointer}
+.app{max-width:1220px;margin:auto;min-height:100vh;background:linear-gradient(180deg,rgba(13,13,20,.98),rgba(7,7,11,.99));box-shadow:0 0 100px #000}.top{height:72px;padding:0 24px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:20;background:rgba(10,10,15,.88);backdrop-filter:blur(18px)}.logo{font-size:26px;font-weight:1000;letter-spacing:4px}.logo b{color:var(--orange)}.topRight{display:flex;gap:10px;align-items:center}.pill{padding:8px 12px;border:1px solid var(--line);border-radius:999px;background:#14141d;color:#ddd;font-size:12px;font-weight:800}
+.wrap{padding:24px}.hero{display:grid;grid-template-columns:1.4fr .8fr;gap:18px;align-items:stretch}.heroMain{padding:34px;border:1px solid var(--line);border-radius:24px;background:radial-gradient(circle at 90% 10%,rgba(255,122,0,.17),transparent 35%),linear-gradient(145deg,#181824,#0e0e15);box-shadow:var(--glow)}h1{font-size:clamp(36px,5vw,64px);line-height:.98;margin:0 0 16px;letter-spacing:-2px}.eyebrow{color:var(--orange);font-weight:900;text-transform:uppercase;letter-spacing:2px;font-size:12px}.muted{color:var(--muted);line-height:1.6}.heroSide{border:1px solid var(--line);border-radius:24px;min-height:300px;background:radial-gradient(circle at 50% 28%,rgba(255,122,0,.5),transparent 12%),linear-gradient(145deg,#26263a,#0d0d14);display:flex;align-items:flex-end;justify-content:center;overflow:hidden}.avatar{width:150px;height:230px;background:linear-gradient(180deg,#252534,#111119);border-radius:80px 80px 24px 24px;box-shadow:0 -30px 80px rgba(255,122,0,.2)}
+.card{background:linear-gradient(145deg,rgba(24,24,34,.96),rgba(15,15,23,.96));border:1px solid var(--line);border-radius:18px;padding:20px;margin-bottom:16px;box-shadow:0 12px 35px rgba(0,0,0,.18)}.card h2{margin:0 0 12px}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.field{margin:13px 0}.field label{display:block;color:#b9b9c5;font-size:12px;font-weight:800;margin:0 0 7px;text-transform:uppercase;letter-spacing:.5px}.field input,.field select{width:100%;padding:13px 14px;border-radius:12px;border:1px solid #363646;background:#0b0b11;color:#fff;outline:none}.field input:focus,.field select:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(255,122,0,.12)}
+.btn{border:1px solid #3b3b4a;background:#20202c;color:#fff;padding:12px 15px;border-radius:12px;font-weight:900;transition:.18s;box-shadow:0 6px 16px rgba(0,0,0,.16)}.btn:hover{transform:translateY(-2px);border-color:#555568}.btn.primary{background:linear-gradient(135deg,#ff8b00,#ff5b00);color:#130a00;border:0}.btn.green{background:rgba(72,227,139,.12);border-color:rgba(72,227,139,.35)}.btn.danger{background:rgba(255,92,105,.1);border-color:rgba(255,92,105,.3)}.btn.blue{background:rgba(74,163,255,.12);border-color:rgba(74,163,255,.3)}.actions{display:flex;gap:8px;flex-wrap:wrap}.actions .btn{flex:1;min-width:130px}.small{font-size:12px;color:#9d9daa}
+#game{display:none}.dashboard{display:grid;grid-template-columns:1.35fr .65fr;gap:16px}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.stat{padding:15px;border-radius:15px;border:1px solid var(--line);background:#12121b}.stat .label{font-size:12px;color:#a8a8b5}.num{display:block;font-size:24px;font-weight:1000;margin-top:4px}.orangeText{color:var(--orange)}.greenText{color:var(--green)}.pinkText{color:var(--pink)}.blueText{color:var(--blue)}
+.progressBox{margin-top:16px;padding:16px;border:1px solid var(--line);border-radius:16px;background:#101019}.progressTop{display:flex;justify-content:space-between;gap:10px;font-size:13px;font-weight:900}.bar{height:11px;border-radius:999px;background:#272733;overflow:hidden;margin:10px 0}.bar>i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--orange),var(--pink),var(--purple));box-shadow:0 0 18px rgba(255,122,0,.4);border-radius:999px}.rankHero{padding:18px;border-radius:18px;background:linear-gradient(145deg,#201827,#12121b);border:1px solid #3b2b4a}.rankBig{font-size:42px;font-weight:1000}.rankList .ranking{display:flex;align-items:center;justify-content:space-between;padding:14px;border:1px solid var(--line);border-radius:13px;background:#101017;margin:8px 0}.ranking.me{border-color:var(--orange);box-shadow:0 0 18px rgba(255,122,0,.08)}.ranking .left{display:flex;gap:12px;align-items:center}.medal{font-size:20px;width:28px}.fansBig{font-weight:900}.tag{font-size:11px;padding:5px 8px;border-radius:999px;background:#242430;color:#ccc;border:1px solid #383847}.tag.good{background:rgba(72,227,139,.1);color:var(--green);border-color:rgba(72,227,139,.25)}.tag.bad{background:rgba(255,92,105,.1);color:#ff8a94;border-color:rgba(255,92,105,.25)}
+.nav{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin:16px 0;position:sticky;top:72px;z-index:10;background:rgba(7,7,11,.88);padding:8px 0;backdrop-filter:blur(12px)}.nav button{background:#15151f;color:#ddd;border:1px solid var(--line);border-radius:11px;padding:11px 8px;font-weight:900;transition:.18s}.nav button:hover{transform:translateY(-2px)}.nav button.active{background:linear-gradient(135deg,#ff8b00,#ff5b00);color:#120b03;border-color:transparent}
+.panel{display:none;animation:fade .22s ease}.panel.active{display:block}@keyframes fade{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+.notice,.event,.song,.item,.socialPost,.relation,.offer,.tour,.award{padding:15px;border-radius:15px;border:1px solid var(--line);background:#101017;margin:9px 0}.notice.good{border-color:rgba(72,227,139,.3);background:rgba(72,227,139,.07)}.notice.warn{border-color:rgba(255,122,0,.3);background:rgba(255,122,0,.07)}.notice.bad{border-color:rgba(255,92,105,.3);background:rgba(255,92,105,.07)}.item:hover,.song:hover,.socialPost:hover,.relation:hover,.offer:hover,.tour:hover{border-color:#454557;transform:translateY(-1px)}.item,.song,.socialPost,.relation,.offer,.tour{transition:.15s}.itemTop{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}.cover{height:110px;border-radius:13px;background:linear-gradient(135deg,#2c1b44,#ff6a00);display:flex;align-items:center;justify-content:center;font-weight:1000;font-size:20px;margin-bottom:10px}.cover.alt{background:linear-gradient(135deg,#092b3c,#7b2cff)}.cover.green{background:linear-gradient(135deg,#103c2d,#9bff3f)}
+.kpi{font-size:27px;font-weight:1000}.split{display:flex;justify-content:space-between;gap:12px}.meter{height:8px;background:#292934;border-radius:999px;overflow:hidden}.meter i{display:block;height:100%;background:linear-gradient(90deg,var(--purple),var(--pink));border-radius:999px}.socialHeader{display:flex;gap:10px;align-items:center}.igAvatar{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#ffce00,#ff006a,#833ab4);display:grid;place-items:center;font-weight:1000}.socialImage{height:160px;border-radius:14px;margin-top:10px;background:radial-gradient(circle at 30% 30%,rgba(255,255,255,.2),transparent 20%),linear-gradient(135deg,#221536,#ff4e73,#ff8a00);display:flex;align-items:flex-end;padding:14px;font-weight:1000;font-size:22px}.socialActions{display:flex;gap:15px;color:#ccc;font-size:13px;margin-top:10px}.relationBar{display:grid;grid-template-columns:repeat(4,1fr);gap:5px}.relationBar i{height:8px;background:#292934;border-radius:5px}.relationBar i.on{background:linear-gradient(90deg,var(--green),var(--orange))}.choice{margin-top:10px}.choice .btn{width:100%;margin-top:7px}
+.toast{position:fixed;right:18px;bottom:18px;z-index:99;max-width:360px;padding:15px 17px;border-radius:15px;background:#181822;border:1px solid #3c3c4c;box-shadow:0 20px 50px #000;display:none}.toast.show{display:block;animation:pop .2s ease}@keyframes pop{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}.modal{position:fixed;inset:0;background:rgba(0,0,0,.72);display:none;align-items:center;justify-content:center;z-index:80;padding:18px}.modal.show{display:flex}.modalBox{width:min(620px,100%);max-height:90vh;overflow:auto;border:1px solid #414151;border-radius:22px;background:#12121b;padding:22px;box-shadow:0 30px 100px #000}.dangerBox{border-color:rgba(255,92,105,.5)}
+@media(max-width:900px){.hero,.dashboard,.grid2{grid-template-columns:1fr}.stats{grid-template-columns:1fr 1fr}.nav{grid-template-columns:repeat(4,1fr)}}@media(max-width:620px){.wrap{padding:14px}.top{padding:0 14px}.topRight .pill:nth-child(n+2){display:none}.nav{grid-template-columns:repeat(3,1fr);top:72px}.nav button{font-size:11px}.stats{grid-template-columns:1fr 1fr}.grid3{grid-template-columns:1fr}.heroMain{padding:24px}}
+.topReset{border:1px solid #3a3a49;background:#15151e;color:#fff;border-radius:10px;padding:8px 10px;font-weight:900;cursor:pointer}.topReset:hover{border-color:var(--orange);color:#ffb36b}.btn:disabled{opacity:.45;cursor:not-allowed}.me{box-shadow:0 0 0 1px rgba(255,122,0,.35),0 0 24px rgba(255,122,0,.08)}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="top"><div class="logo">RITMO<b>.</b></div><div class="topRight"><span class="pill" id="topDate">2026 • ENERO</span><span class="pill" id="topAge">18 AÑOS</span><span class="pill">🎯 TOP 1</span><button class="topReset" onclick="newGame()">↻ NUEVA PARTIDA</button></div></header>
+
+<div class="wrap" id="creator">
+  <div class="hero">
+    <div class="heroMain">
+      <div class="eyebrow">Carrera musical • modo difícil</div>
+      <h1>De artista desconocido a <span style="color:var(--orange)">TOP 1</span> mundial.</h1>
+      <p class="muted">Tenés que construir tu carrera, ganar fans, sobrevivir a decisiones, lanzar música, formar relaciones y superar a los gigantes antes de cumplir 30.</p>
+      <div class="card" style="margin:20px 0 0">
+        <div class="grid2">
+          <div class="field"><label>Nombre artístico</label><input id="name" placeholder="Ej: Young Nova"></div>
+          <div class="field"><label>Género</label><select id="genre"><option>Urbano</option><option>Trap</option><option>Reggaetón</option><option>Rap</option><option>R&B</option><option>Pop</option></select></div>
+        </div>
+        <div class="grid2">
+          <div class="field"><label>País de origen</label><select id="country"></select></div>
+          <div class="field"><label>Ciudad inicial</label><select id="city"><option>Mendoza</option><option>Buenos Aires</option><option>Córdoba</option><option>Rosario</option><option>San Juan</option></select></div>
+        </div>
+        <button class="btn primary" style="width:100%;padding:15px" onclick="start()">▶ EMPEZAR MI CARRERA</button>
+      </div>
+    </div>
+    <div class="heroSide"><div class="avatar"></div></div>
+  </div>
+</div>
+
+<div class="wrap" id="game">
+  <div class="dashboard">
+    <div>
+      <div class="card">
+        <div class="eyebrow" id="reputationLabel">ARTISTA EMERGENTE</div>
+        <h2 id="welcome" style="font-size:32px;margin:5px 0"></h2>
+        <p class="muted" id="info"></p>
+        <div class="stats">
+          <div class="stat"><div class="label">💰 DINERO</div><span class="num orangeText" id="money"></span></div>
+          <div class="stat"><div class="label">👥 FANS</div><span class="num" id="fans"></span></div>
+          <div class="stat"><div class="label">⭐ FAMA</div><span class="num pinkText" id="fame"></span></div>
+          <div class="stat"><div class="label">🌎 RANKING</div><span class="num blueText" id="rank"></span></div>
+        </div>
+        <div class="progressBox">
+          <div class="progressTop"><span>👑 CAMINO AL TOP 1</span><span id="progressText">0 / 1B</span></div>
+          <div class="bar"><i id="progressBar"></i></div>
+          <div class="small" id="deadline"></div>
+        </div>
+      </div>
+      <div class="card" id="newsTicker"></div>
+    </div>
+    <div class="rankHero"><div class="eyebrow">REFERENCIA DEL TOP 1</div><div class="rankBig">👑 1B</div><p class="muted">En RITMO, el objetivo es superar la barrera del líder mundial. Los números de los artistas son referencias ficticias para la dificultad del juego.</p><div class="meter"><i id="miniRankBar"></i></div><p class="small" id="nextRankHint"></p></div>
+  </div>
+
+  <div class="nav">
+    <button class="active" onclick="show('home',this)">🏠 Inicio</button>
+    <button onclick="show('music',this)">🎵 Música</button>
+    <button onclick="show('projects',this)">💿 Proyectos</button>
+    <button onclick="show('social',this)">📱 Instagram</button>
+    <button onclick="show('relations',this)">🤝 Relaciones</button>
+    <button onclick="show('career',this)">🏢 Carrera</button>
+    <button onclick="show('world',this)">🌎 Mundo</button>
+    <button onclick="show('life',this)">🏠 Vida</button>
+    <button onclick="show('ranking',this)">🏆 Ranking</button>
+    <button onclick="advanceTime(1)" class="primary">⏩ PASAR MES</button>
+  </div>
+
+  <section id="home" class="panel active">
+    <div class="grid2">
+      <div class="card"><h2>📰 RITMO NEWS</h2><div id="homeNews"></div></div>
+      <div class="card"><h2>📌 Próximos objetivos</h2><div id="objectives"></div></div>
+    </div>
+    <div class="card"><h2>🔥 Actividad reciente</h2><div id="activity"></div></div>
+  </section>
+
+  <section id="music" class="panel">
+    <div class="grid2">
+      <div class="card"><h2>🎵 Nuevo single</h2><p class="muted">La calidad y tu fama influyen en el potencial. Un tema puede explotar, caer o revivir meses después.</p>
+        <div class="field"><label>Título</label><input id="songTitle" placeholder="Ej: Noche de Calle"></div>
+        <div class="field"><label>Género</label><select id="songGenre"><option>Urbano</option><option>Trap</option><option>Reggaetón</option><option>Rap</option><option>R&B</option><option>Pop</option></select></div>
+        <div class="field"><label>Producción</label><select id="quality"><option value="1">Casera — $0</option><option value="2">Buena — $900</option><option value="3">Profesional — $2.500</option><option value="4">Premium — $6.500</option></select></div>
+        <button class="btn primary" style="width:100%" onclick="createSong()">🎧 GRABAR Y LANZAR</button><div id="musicMsg"></div>
+      </div>
+      <div class="card"><h2>📈 Canciones vivas</h2><p class="muted">Cada mes cambian las reproducciones y popularidad.</p><div id="songList"></div></div>
+    </div>
+  </section>
+
+  <section id="projects" class="panel">
+    <div class="card"><h2>💿 Álbumes y EPs</h2><p class="muted">Necesitás canciones disponibles para completar un proyecto. Elegí nombre y portada; el resultado puede ser un éxito o un fracaso.</p>
+      <div class="grid2"><div><div class="field"><label>Tipo</label><select id="projectType"><option value="EP">EP — 4 a 6 canciones</option><option value="ALBUM">Álbum — 10 a 15 canciones</option></select></div><div class="field"><label>Presupuesto</label><select id="projectBudget"><option value="5000">💿 Básico — $5.000</option><option value="15000">🔥 Estándar — $15.000</option><option value="35000">💎 Profesional — $35.000</option><option value="75000">👑 Premium — $75.000</option></select></div><div class="field"><label>Nombre</label><input id="projectName" placeholder="Ej: Nueva Era"></div><div class="field"><label>Portada</label><select id="coverChoice"><option>Neón nocturno</option><option>Ciudad dorada</option><option>Caos violeta</option><option>Verde eléctrico</option></select></div><button class="btn primary" onclick="createProject()">💿 GRABAR PROYECTO</button></div><div id="projectMsg"></div></div>
+    </div>
+    <div class="card"><h2>📀 Mis proyectos</h2><div id="projectList"></div></div>
+  </section>
+
+  <section id="social" class="panel">
+    <div class="grid2">
+      <div class="card"><h2>📱 Instagram</h2><p class="muted">Publicar construye una audiencia. También podés generar polémicas, oportunidades y cambios de reputación.</p><div class="field"><label>¿Qué querés publicar?</label><select id="postType"><option value="MUSIC">🎵 Teaser de música</option><option value="LIFE">📸 Vida diaria</option><option value="THANKS">❤️ Agradecer a los fans</option><option value="BOLD">😈 Declaración polémica</option><option value="COLLAB">🤝 Adelanto de colaboración</option></select></div><button class="btn primary" style="width:100%" onclick="makePost()">📤 PUBLICAR</button><div id="socialMsg"></div></div>
+      <div class="card"><h2>📊 Tu Instagram</h2><div class="grid3"><div><div class="kpi" id="igFollowers">0</div><div class="small">seguidores</div></div><div><div class="kpi" id="igPosts">0</div><div class="small">publicaciones</div></div><div><div class="kpi" id="igEngagement">0%</div><div class="small">engagement</div></div></div><div style="margin-top:14px" id="igProfile"></div></div>
+    </div>
+    <div class="card"><h2>📸 Feed</h2><div id="feed"></div></div>
+  </section>
+
+  <section id="relations" class="panel"><div class="card"><h2>🤝 Relaciones con artistas</h2><p class="muted">No empezás siendo amigo de nadie. Las relaciones se ganan con talento, respeto, colaboraciones y decisiones. Las opiniones que aparecen son <b>eventos ficticios del juego</b>, no declaraciones reales.</p><div id="relationsList"></div></div></section>
+
+  <section id="career" class="panel">
+    <div class="grid2">
+      <div class="card"><h2>🏢 Discográficas</h2><p class="muted">Las ofertas aparecen cuando tu carrera empieza a llamar la atención.</p><div id="labelOffers"></div></div>
+      <div class="card"><h2>⭐ Reputación</h2><div id="repBox"></div><hr style="border-color:rgba(255,255,255,.08);margin:20px 0"><h3>🏁 Carrera</h3><p class="muted">Podés retirarte cuando quieras. Tu carrera quedará registrada con tus estadísticas finales.</p><button class="btn" onclick="retireArtist()">🏁 RETIRARME</button></div>
+    </div>
+    <div class="card"><h2>🏆 Premios</h2><div id="awards"></div></div>
+    <div class="card"><h2>🐐 Modo Leyenda</h2><div id="legendBox"></div></div>
+  </section>
+
+  <section id="world" class="panel">
+    <div class="card"><h2>🌎 Gira mundial</h2><p class="muted">Una gira consume meses y dinero, pero puede darte miles o millones de fans cuando seas grande.</p><div id="tourList"></div></div>
+    <div class="card"><h2>📰 Noticias del mundo</h2><div id="worldNews"></div></div>
+  </section>
+
+  <section id="life" class="panel"><div class="card"><h2>🏠 Vida del artista</h2><p class="muted">Gastá tu dinero en cosas que hacen que la vida de estrella se sienta real. Comprar lujo no te acerca directamente al TOP 1.</p><div id="shop"></div></div></section>
+
+  <section id="ranking" class="panel"><div class="card"><h2>🏆 Ranking mundial</h2><div class="notice good">📊 Tu posición actual: <b id="rankingMyPos">#—</b> • <b id="rankingMyFans">0 fans</b></div><p class="muted">Escala ficticia de dificultad del juego. Tu objetivo es superar al #1 antes de cumplir 30.</p><div class="rankList" id="rankList"></div></div></section>
+</div>
+</div>
+
+<div class="toast" id="toast"></div>
+<div class="modal" id="eventModal"><div class="modalBox" id="eventModalBox"></div></div>
+
+<script>
+'use strict';
+const countries=['Argentina','Uruguay','Chile','Brasil','México','Colombia','España','Estados Unidos','Puerto Rico','República Dominicana','Perú','Bolivia','Paraguay','Ecuador','Venezuela','Francia','Italia','Alemania','Reino Unido','Canadá','Japón','Corea del Sur','Australia'];
+const citiesByCountry={Argentina:['Mendoza','Buenos Aires','Córdoba','Rosario','San Juan'],Uruguay:['Montevideo','Punta del Este'],Chile:['Santiago','Valparaíso'],Brasil:['São Paulo','Río de Janeiro'],México:['Ciudad de México','Monterrey','Guadalajara'],Colombia:['Bogotá','Medellín','Cali'],España:['Madrid','Barcelona'], 'Estados Unidos':['Miami','Los Ángeles','Nueva York','Dallas'], 'Puerto Rico':['San Juan'], 'República Dominicana':['Santo Domingo'],Perú:['Lima'],Bolivia:['La Paz','Santa Cruz'],Paraguay:['Asunción'],Ecuador:['Quito','Guayaquil'],Venezuela:['Caracas'],Francia:['París'],Italia:['Roma','Milán'],Alemania:['Berlín'], 'Reino Unido':['Londres'],Canadá:['Toronto','Montreal'],Japón:['Tokio'], 'Corea del Sur':['Seúl'],Australia:['Sídney']};
+const worldArtists=[
+ {name:'Bad Bunny',fans:1000000000,genre:'Urbano',like:78,rel:0},
+ {name:'Drake',fans:850000000,genre:'Rap',like:48,rel:0},
+ {name:'Taylor Swift',fans:800000000,genre:'Pop',like:42,rel:0},
+ {name:'The Weeknd',fans:760000000,genre:'R&B',like:58,rel:0},
+ {name:'Justin Bieber',fans:720000000,genre:'Pop',like:45,rel:0},
+ {name:'Ed Sheeran',fans:680000000,genre:'Pop',like:50,rel:0},
+ {name:'Ariana Grande',fans:620000000,genre:'Pop',like:46,rel:0},
+ {name:'Billie Eilish',fans:520000000,genre:'Pop',like:55,rel:0},
+ {name:'Karol G',fans:450000000,genre:'Reggaetón',like:70,rel:0},
+ {name:'Duki',fans:180000000,genre:'Trap',like:60,rel:0},
+ {name:'Bizarrap',fans:160000000,genre:'Urbano',like:66,rel:0},
+ {name:'Feid',fans:150000000,genre:'Reggaetón',like:65,rel:0},
+ {name:'Emilia',fans:95000000,genre:'Pop',like:62,rel:0},
+ {name:'Milo J',fans:60000000,genre:'Rap',like:72,rel:0},
+ {name:'Omar Courtz',fans:65000000,genre:'Urbano',like:58,rel:0},
+ {name:'Peso Pluma',fans:120000000,genre:'Urbano',like:52,rel:0},
+ {name:'Americano4KT',fans:12000000,genre:'Trap',like:54,rel:0,freeCollab:true},
+ {name:'Topboy',fans:8000000,genre:'Trap',like:56,rel:0,freeCollab:true}
+];
+
+worldArtists.push(
+{name:'Daddy Yankee',fans:180000000,genre:'Reggaetón',like:72},{name:'Don Omar',fans:170000000,genre:'Reggaetón',like:70},{name:'Wisin',fans:125000000,genre:'Reggaetón',like:64},{name:'Yandel',fans:125000000,genre:'Reggaetón',like:64},{name:'Tego Calderón',fans:90000000,genre:'Rap',like:70},{name:'Nicky Jam',fans:140000000,genre:'Reggaetón',like:65},{name:'Farruko',fans:120000000,genre:'Reggaetón',like:63},{name:'Sech',fans:90000000,genre:'Urbano',like:60},{name:'Cosculluela',fans:70000000,genre:'Trap',like:55},{name:'Lunay',fans:50000000,genre:'Urbano',like:58},
+{name:'Natanael Cano',fans:105000000,genre:'Corridos',like:55},{name:'Junior H',fans:115000000,genre:'Corridos',like:60},{name:'Fuerza Regida',fans:130000000,genre:'Corridos',like:58},{name:'Santa Fe Klan',fans:90000000,genre:'Rap',like:65},{name:'Alemán',fans:60000000,genre:'Rap',like:62},{name:'Gera MX',fans:55000000,genre:'Rap',like:60},{name:'Ovi',fans:30000000,genre:'Corridos',like:50},{name:'El Malilla',fans:45000000,genre:'Urbano',like:58},
+{name:'J Balvin',fans:300000000,genre:'Reggaetón',like:65},{name:'Maluma',fans:240000000,genre:'Urbano',like:62},{name:'Ryan Castro',fans:75000000,genre:'Reggaetón',like:60},{name:'Blessd',fans:70000000,genre:'Reggaetón',like:58},{name:'Cris Mj',fans:80000000,genre:'Reggaetón',like:55},{name:'Beéle',fans:85000000,genre:'Urbano',like:60},{name:'KrisR',fans:20000000,genre:'Urbano',like:52},{name:'Geezydee',fans:12000000,genre:'Urbano',like:50},{name:'Tury',fans:10000000,genre:'Urbano',like:50},{name:'Carabin3',fans:8000000,genre:'Urbano',like:48},{name:'YoungFatty',fans:7000000,genre:'Urbano',like:48},
+{name:'Anuel AA',fans:260000000,genre:'Trap',like:62},{name:'Myke Towers',fans:170000000,genre:'Reggaetón',like:65},{name:'Ozuna',fans:230000000,genre:'Reggaetón',like:64},{name:'Rauw Alejandro',fans:210000000,genre:'Urbano',like:66},{name:'Arcángel',fans:130000000,genre:'Trap',like:68},{name:'Ñengo Flow',fans:70000000,genre:'Trap',like:63},{name:'De La Ghetto',fans:85000000,genre:'Reggaetón',like:62},{name:'Eladio Carrión',fans:110000000,genre:'Trap',like:61},{name:'Mora',fans:115000000,genre:'Urbano',like:64},{name:'Dei V',fans:55000000,genre:'Urbano',like:58},{name:'Young Miko',fans:95000000,genre:'Urbano',like:68},{name:'Álvaro Díaz',fans:45000000,genre:'Rap',like:67},{name:'Jhayco',fans:100000000,genre:'Reggaetón',like:60},{name:'Hades66',fans:50000000,genre:'Trap',like:58},{name:'Yovngchimi',fans:45000000,genre:'Trap',like:56},{name:'Torrres',fans:10000000,genre:'Urbano',like:50},{name:'Jovaan',fans:8000000,genre:'Urbano',like:50},{name:'Remers',fans:7000000,genre:'Urbano',like:48},{name:'CG',fans:6000000,genre:'Urbano',like:48},{name:'Chanell',fans:5000000,genre:'Urbano',like:48},{name:'Alejo',fans:45000000,genre:'Urbano',like:55},{name:'Bassy',fans:5000000,genre:'Urbano',like:48},
+{name:'Quevedo',fans:170000000,genre:'Urbano',like:68},{name:'Morad',fans:85000000,genre:'Rap',like:60},{name:'Rels B',fans:120000000,genre:'Urbano',like:66},{name:'Saiko',fans:75000000,genre:'Urbano',like:62},{name:'Yung Beef',fans:45000000,genre:'Trap',like:58},{name:'Cruz Cafuné',fans:35000000,genre:'Rap',like:62},{name:'Dellafuente',fans:60000000,genre:'Urbano',like:66},{name:'JC Reyes',fans:45000000,genre:'Urbano',like:55},{name:'Beny Jr',fans:55000000,genre:'Trap',like:58}
+);
+const rankScale=[{name:'Bad Bunny',fans:1000000000},{name:'Drake',fans:850000000},{name:'Taylor Swift',fans:800000000},{name:'The Weeknd',fans:760000000},{name:'Justin Bieber',fans:720000000},{name:'Ed Sheeran',fans:680000000},{name:'Ariana Grande',fans:620000000},{name:'Billie Eilish',fans:520000000},{name:'Karol G',fans:450000000},{name:'Duki',fans:180000000},{name:'Bizarrap',fans:160000000},{name:'Feid',fans:150000000},{name:'Peso Pluma',fans:120000000},{name:'Emilia',fans:95000000},{name:'Omar Courtz',fans:65000000},{name:'Milo J',fans:60000000},{name:'Americano4KT',fans:12000000},{name:'Topboy',fans:8000000}];
+const tourCities=[['Buenos Aires','Argentina',800,3000,12000],['Montevideo','Uruguay',1200,4500,18000],['Santiago','Chile',2000,6000,26000],['São Paulo','Brasil',5000,12000,55000],['Ciudad de México','México',9000,22000,90000],['Medellín','Colombia',12000,28000,110000],['Miami','Estados Unidos',18000,40000,160000],['Los Ángeles','Estados Unidos',30000,65000,260000],['Nueva York','Estados Unidos',50000,90000,400000],['Madrid','España',70000,120000,500000]];
+const shopItems=[['Departamento','🏢',12000,'Tu base inicial de artista.'],['Auto','🚗',25000,'Mejora tu estilo de vida.'],['Estudio propio','🎚️',60000,'Reduce costos de producción.'],['Casa','🏠',150000,'Un gran símbolo de progreso.'],['Ropa de lujo','👕',8000,'Sube un poco tu imagen pública.'],['Joyas','💎',22000,'Aumenta tu imagen de estrella.']];
+let s={name:'',genre:'',country:'Argentina',city:'Mendoza',money:1500,fans:0,fame:0,year:2026,month:1,age:18,monthCount:0,songs:[],projects:[],posts:[],news:[],activity:[],relations:{},label:null,reputation:{callejero:0,comercial:0,profesional:0,problematico:0,misterioso:0},awards:[],owned:[],pendingEvent:null,retired:false};
+function moneyFmt(n){return '$'+Math.max(0,Math.floor(n)).toLocaleString('es-AR')}
+function numFmt(n){n=Math.floor(n);if(n>=1000000000)return (n/1000000000).toFixed(n%1000000000?1:0)+'B';if(n>=1000000)return (n/1000000).toFixed(n%1000000?1:0)+'M';if(n>=1000)return (n/1000).toFixed(n%1000?1:0)+'K';return n.toLocaleString('es-AR')}
+function save(){localStorage.setItem('ritmoSaveV9',JSON.stringify(s))}
+function load(){try{let x=JSON.parse(localStorage.getItem('ritmoSaveV9'));if(x){s=Object.assign(s,x);s.relations=s.relations||{};s.reputation=Object.assign({callejero:0,comercial:0,profesional:0,problematico:0,misterioso:0},s.reputation||{});s.awards=s.awards||[];s.owned=s.owned||[];s.news=s.news||[];s.activity=s.activity||[];s.posts=s.posts||[];s.songs=s.songs||[];s.projects=s.projects||[];s.pendingEvent=null;document.getElementById('creator').style.display='none';document.getElementById('game').style.display='block';updateAll();}}catch(e){}}
+function toast(t){let x=document.getElementById('toast');x.innerHTML=t;x.classList.add('show');setTimeout(()=>x.classList.remove('show'),3000)}
+function log(t){s.activity.unshift({date:`${s.month}/${s.year}`,text:t});s.activity=s.activity.slice(0,12)}
+function reputation(){let r=s.reputation, key=Object.keys(r).sort((a,b)=>r[b]-r[a])[0];let names={callejero:'🔥 Callejero',comercial:'💎 Comercial',profesional:'🎤 Profesional',problematico:'😈 Problemático',misterioso:'🤫 Misterioso'};return names[key]||'🎤 Emergente'}
+function updateAll(){
+ document.getElementById('money').textContent=moneyFmt(s.money);document.getElementById('fans').textContent=numFmt(s.fans);document.getElementById('fame').textContent=s.fame;document.getElementById('welcome').textContent='Bienvenido, '+s.name+' 🎤';document.getElementById('info').textContent=`${s.genre} • ${s.city}, ${s.country} • ${reputation()} • ${s.age} años • ${monthName(s.month)} ${s.year}${s.retired?' • 🏁 RETIRADO':''}`;document.getElementById('reputationLabel').textContent=reputation().toUpperCase();document.getElementById('topDate').textContent=`${s.year} • ${monthName(s.month).toUpperCase()}`;document.getElementById('topAge').textContent=s.age+' AÑOS';
+ let rank=getRank();document.getElementById('rank').textContent='#'+rank;let pct=Math.min(100,s.fans/1000000000*100);document.getElementById('progressBar').style.width=Math.max(0,pct)+'%';document.getElementById('miniRankBar').style.width=Math.max(0,pct)+'%';document.getElementById('progressText').textContent=numFmt(s.fans)+' / 1B';document.getElementById('deadline').textContent=`Te quedan ${Math.max(0,30-s.age)} años para superar 1B. Si cumplís 30 sin conseguirlo, perdés el desafío.`;document.getElementById('nextRankHint').textContent=`Estás #${rank}. Próximo objetivo: ${nextRankText()}`;
+ renderHome();renderSongs();renderProjects();renderSocial();renderRelations();renderCareer();renderWorld();renderLife();renderRanking();save();
+}
+function monthName(m){return ['','Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'][m]}
+function getRank(){let arr=[...rankScale,{name:s.name,fans:s.fans}].sort((a,b)=>b.fans-a.fans);return arr.findIndex(x=>x.name===s.name)+1}
+function nextRankText(){let arr=[...rankScale].sort((a,b)=>b.fans-a.fans);let n=arr.find(x=>x.fans>s.fans);return n?`${n.name} • ${numFmt(n.fans)}`:'TOP 1 👑'}
+function start(){let n=document.getElementById('name').value.trim();if(!n){alert('Escribí un nombre artístico.');return}const fresh={name:n,genre:document.getElementById('genre').value,country:document.getElementById('country').value,city:document.getElementById('city').value,money:1500,fans:0,fame:0,year:2026,month:1,age:18,monthCount:0,songs:[],projects:[],posts:[],news:[],activity:[],relations:{},label:null,reputation:{callejero:0,comercial:0,profesional:0,problematico:0,misterioso:0},awards:[],owned:[],pendingEvent:null,retired:false};s=Object.assign(s,fresh);
+const countryBonus={Argentina:[0,2],Uruguay:[0,1],Chile:[0,1],Brasil:[200,1],México:[500,2],Colombia:[600,2],España:[300,2],'Estados Unidos':[800,3],'Puerto Rico':[700,3],'República Dominicana':[450,2],Perú:[100,1],Bolivia:[50,1],Paraguay:[50,1],Ecuador:[80,1],Venezuela:[80,1],Francia:[0,1],Italia:[0,1],Alemania:[0,1],'Reino Unido':[0,1],Canadá:[0,1],Japón:[0,1],'Corea del Sur':[0,1],Australia:[0,1]};
+const cb=countryBonus[s.country]||[0,0];s.fans=cb[0];s.fame=cb[1];
+s.world={};s.rivalries={};s.milestones=[];s.legend={};
+rankScale.forEach(a=>s.relations[a.name]={score:0,status:'Neutral'});document.getElementById('creator').style.display='none';document.getElementById('game').style.display='block';log(`Comenzaste tu carrera desde ${s.city}, ${s.country}.`);updateAll();show('home',document.querySelector('.nav button'))}
+function show(id,btn){const panel=document.getElementById(id);if(!panel){return}document.querySelectorAll('.panel').forEach(x=>x.classList.remove('active'));panel.classList.add('active');document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));if(btn)btn.classList.add('active');panel.scrollIntoView({behavior:'smooth',block:'start'})}
+function updateCities(){let c=document.getElementById('country').value;let el=document.getElementById('city');el.innerHTML=(citiesByCountry[c]||['Capital']).map(x=>`<option>${x}</option>`).join('')}
+function createSong(){
+  if(s.retired){toast('Tu carrera terminó. No podés lanzar música.');return;}
+  const titleEl=document.getElementById('songTitle');
+  const qualityEl=document.getElementById('quality');
+  const genreEl=document.getElementById('songGenre');
+  const msg=document.getElementById('musicMsg');
+  const t=(titleEl.value||'').trim();
+  const q=parseInt(qualityEl.value,10)||1;
+  const g=genreEl.value;
+  const costs={1:0,2:900,3:2500,4:6500};
+  const cost=Number.isFinite(costs[q])?costs[q]:0;
+  s.money=Number(s.money);
+  if(!Number.isFinite(s.money)||s.money<0)s.money=0;
+  if(!t){msg.innerHTML='<div class="notice warn">✍️ Poné un título para la canción.</div>';return;}
+  // Una canción casera cuesta exactamente $0 y SIEMPRE puede grabarse aunque tengas $0.
+  if(cost===0){
+    // no se descuenta dinero
+  }else if(s.money<cost){
+    msg.innerHTML=`<div class="notice bad">💸 Dinero insuficiente. Esta producción cuesta <b>${moneyFmt(cost)}</b> y tenés <b>${moneyFmt(s.money)}</b>.</div>`;
+    return;
+  }else{
+    s.money-=cost;
+  }
+  const talent=(s.fame*1.4)+(s.fans/50000)+(q*12);
+  const streams=Math.max(40,Math.floor((Math.random()*800)+talent*12));
+  const fans=Math.max(3,Math.floor(streams/250)+q*3);
+  const song={title:t,genre:g,quality:q,streams,likes:Math.max(1,Math.floor(streams/18)),fans,growth:Math.random()*8-1.5,popularity:Math.min(100,10+q*10+s.fame/8),age:0};
+  s.songs.unshift(song);
+  s.fans+=fans;
+  s.fame+=q*2;
+  s.money+=Math.floor(streams*.03);
+  if(q>=3)s.reputation.profesional+=2;
+  if(q===1)s.reputation.callejero+=1;
+  log(`🎵 Lanzaste “${t}” y consiguió ${numFmt(streams)} reproducciones.`);
+  titleEl.value='';
+  msg.innerHTML=`<div class="notice good">🔥 “${t}” debutó con <b>${numFmt(streams)}</b> reproducciones y +${numFmt(fans)} fans.<br><span class="small">Producción: ${cost===0?'Casera — GRATIS':'-'+moneyFmt(cost)}</span></div>`;
+  updateAll();
+}
+function advanceTime(months=1,skipEvent=false){if(s.retired)return;for(let k=0;k<months;k++){s.month++;s.monthCount++;if(s.month>12){s.month=1;s.year++;s.age++;annualChanges()}updateSongs();if(!skipEvent&&Math.random()<.72)monthlyEvent();if(checkVictory())return;if(s.age>=30){endGame(false);return}}updateAll()}
+function updateSongs(){s.songs.forEach(song=>{song.age++;let wave=Math.random();if(wave<.08){song.growth+=8+Math.random()*15;log(`🔥 “${song.title}” volvió a hacerse viral.`)}else if(wave<.2){song.growth-=3+Math.random()*7}else song.growth+=(Math.random()*4-1.5);song.growth=Math.max(-18,Math.min(28,song.growth));let multiplier=1+song.growth/100;let add=Math.max(0,Math.floor(song.streams*.08*multiplier));song.streams+=add;s.fans=Math.max(0,s.fans+Math.floor(add/400));song.likes=Math.floor(song.streams/18);s.money+=Math.max(10,Math.floor(add/180));song.popularity=Math.max(0,Math.min(100,song.popularity+song.growth*.08));});if(s.songs.length){let best=s.songs.reduce((a,b)=>a.popularity>b.popularity?a:b);if(best.popularity>75&&Math.random()<.15){s.fame+=3;s.fans+=Math.floor(best.streams/10000)}}}
+function annualChanges(){s.fame+=Math.floor(s.fame*.08);if(s.label)s.money+=Math.floor(s.label.advance*.25);s.money+=1500+Math.floor(s.fans*.00015);log(`📅 Pasaste a ${s.year}. Tu carrera entra en una nueva etapa.`);if(s.age===30)log('⏰ Cumpliste 30: el desafío TOP 1 llega a su límite.');}
+function monthlyEvent(){
+ if(s.pendingEvent)return;
+ // Los conflictos aparecen de forma recurrente durante la carrera, pero no dominan todos los meses.
+ if(Math.random()<0.30){return generateConflict();}
+ let events=[
+ ['📰 Tu canción está empezando a llamar la atención de medios locales.',[['Aprovechar la prensa',()=>{s.fans+=600;s.fame+=4;s.reputation.profesional+=2;return '+600 fans, +4 fama.'}],['Mantener misterio',()=>{s.fame+=2;s.reputation.misterioso+=3;return '+2 fama y +3 misterio.'}]]],
+ ['🎙️ Un periodista te pregunta si realmente tenés nivel para llegar al TOP 1.',[['Responder con confianza',()=>{s.fame+=5;s.reputation.comercial+=2;return '+5 fama.'}],['No responder',()=>{s.reputation.misterioso+=3;return '+3 misterio.'}]]],
+ ['🔥 Un clip tuyo empieza a circular en redes.',[['Subir más contenido',()=>{s.fans+=2500;s.reputation.comercial+=2;return '+2.500 fans.'}],['Dejar que crezca solo',()=>{s.fans+=900;s.reputation.profesional+=1;return '+900 fans.'}]]],
+ ['⚡ Un artista del ambiente hace una crítica sobre tu estilo.',[['Contestar',()=>{s.fans+=1800;s.fame+=5;s.reputation.problematico+=4;return '+1.800 fans, +5 fama y +4 polémica.'}],['Ignorar',()=>{s.fame+=2;s.reputation.profesional+=2;return '+2 fama y +2 profesional.'}]]]
+ ];let e=events[Math.floor(Math.random()*events.length)];showEvent(e[0],e[1])
+}
+function generateConflict(){
+ let candidates=worldArtists.filter(a=>a.name!==s.name);
+ let a=candidates[Math.floor(Math.random()*candidates.length)];
+ if(!s.relations[a.name])s.relations[a.name]={score:0,status:'Neutral'};
+ let intensity=Math.floor(1+Math.random()*3);
+ let headlines=[
+  `🔥 ${a.name} responde a un comentario sobre tu carrera.`,
+  `⚡ Se genera tensión entre vos y ${a.name} en redes.`,
+  `📰 Un comentario tuyo es interpretado como una indirecta para ${a.name}.`,
+  `🎤 La prensa empieza a hablar de una rivalidad entre vos y ${a.name}.`
+ ];
+ let options=[
+  ['🥊 Responder públicamente',()=>{s.reputation.problematico+=5+intensity;s.fame+=4+intensity;s.fans+=Math.floor(600*intensity);s.relations[a.name].score=Math.max(-100,s.relations[a.name].score-(12+intensity*3));return `🔥 Respondiste a ${a.name}: +${4+intensity} fama, +${600*intensity} fans y la relación cayó fuerte.`}],
+  ['🤫 Ignorar y seguir haciendo música',()=>{s.reputation.profesional+=3;s.relations[a.name].score=Math.max(-100,s.relations[a.name].score-2);return `🎤 Elegiste no entrar en la pelea. Tu imagen profesional creció.`}],
+  ['🤝 Hablar en privado',()=>{let gain=4+intensity;s.reputation.profesional+=2;s.relations[a.name].score=Math.min(100,s.relations[a.name].score+gain);return `🤝 Hablaste con ${a.name} y bajaste la tensión. Respeto +${gain}.`}]
+ ];
+ showEvent(headlines[Math.floor(Math.random()*headlines.length)],options);
+}
+
+function showEvent(title,options){s.pendingEvent=true;let box=document.getElementById('eventModalBox');box.innerHTML=`<div class="eyebrow">EVENTO DEL MES</div><h2>${title}</h2><p class="muted">Tu decisión puede cambiar tu reputación, fans y futuras oportunidades.</p><div class="choice">${options.map((o,i)=>`<button class="btn ${i===0?'primary':''}" onclick="chooseEvent(${i})">${o[0]}</button>`).join('')}</div>`;s._eventOptions=options;document.getElementById('eventModal').classList.add('show')}
+function chooseEvent(i){let result=s._eventOptions[i][1]();s.pendingEvent=false;document.getElementById('eventModal').classList.remove('show');log('📰 '+result);toast(result);updateAll()}
+function createProject(){
+ if(s.retired){toast('Tu carrera terminó.');return}
+ let type=document.getElementById('projectType').value;
+ let name=document.getElementById('projectName').value.trim();
+ let need=type==='EP'?4:10;
+ let budget=Number(document.getElementById('projectBudget').value)||5000;
+ if(!name){alert('Poné un nombre.');return}
+ if(s.songs.length<need){document.getElementById('projectMsg').innerHTML=`<div class="notice warn">Necesitás al menos ${need} canciones. Tenés ${s.songs.length}.</div>`;return}
+ if(s.money<budget){document.getElementById('projectMsg').innerHTML=`<div class="notice bad">💸 Necesitás ${moneyFmt(budget)} y tenés ${moneyFmt(s.money)}.</div>`;return}
+ s.money-=budget;
+ let selected=s.songs.slice(0,need);
+ let score=selected.reduce((a,b)=>a+b.popularity,0)/need+s.fame/3+(budget/75000)*12;
+ let hit=score>55+Math.random()*35;
+ let gain=hit?Math.floor(s.fans*(.05+Math.random()*.12))+8000:Math.floor(s.fans*.012)+700;
+ s.fans+=gain;s.fame+=hit?18+Math.floor(budget/35000):5;
+ s.projects.unshift({type,name,cover:document.getElementById('coverChoice').value,score,hit,age:0,budget,songs:need});
+ s.reputation.profesional+=2;if(hit)s.reputation.comercial+=3;
+ log(`${hit?'💿 ÉXITO':'💿 FRACASO'}: ${type} “${name}” con presupuesto ${moneyFmt(budget)}. +${numFmt(gain)} fans.`);
+ document.getElementById('projectMsg').innerHTML=`<div class="notice ${hit?'good':'warn'}">${hit?'🔥 Tu proyecto fue un éxito.':'😬 El proyecto tuvo una recepción floja.'} +${numFmt(gain)} fans.</div>`;
+ advanceTime(1,true);
+}
+function relationStatus(score){if(score>=82)return '🟢 Amigo';if(score>=55)return '🟡 Cercano';if(score>=25)return '⚪ Neutral';if(score>=-10)return '🟠 Distante';if(score>=-45)return '🔴 Rival';return '💀 Enemigo'}
+function relationOpinion(a,score){
+  if(score>=82)return `${a.name} está muy impresionado con tu carrera y piensa en colaborar`;
+  if(score>=55)return `${a.name} respeta tu talento y estaría abierto a una colaboración`;
+  if(score>=25)return `${a.name} empieza a prestar atención a tu música`;
+  if(score>=-10)return `${a.name} todavía no está convencido de tu propuesta`;
+  if(score>=-45)return `${a.name} no conecta demasiado con tu música`;
+  return `${a.name} siente que tu música todavía no está a su nivel`;
+}
+function relationScore(a){
+  const r=s.relations[a.name]||{score:0};
+  const talent=Math.min(35, s.fame*0.45 + s.songs.filter(x=>x.popularity>=55).length*4 + s.projects.filter(x=>x.hit).length*7);
+  const consistency=Math.min(20, s.monthCount/3);
+  const genreBonus=(a.genre && s.genre && a.genre===s.genre)?8:0;
+  return Math.max(-100,Math.min(100,Math.floor((r.score||0)+talent+consistency+genreBonus+a.like*0.08-4)));
+}
+function renderSongs(){
+  const el=document.getElementById('songList');
+  if(!el)return;
+  if(!s.songs.length){el.innerHTML='<p class="muted">Todavía no lanzaste ninguna canción. Tu primera canción puede costar $0.</p>';return;}
+  el.innerHTML=s.songs.slice(0,20).map(song=>{
+    const trend=song.growth>=2?'📈':song.growth<=-2?'📉':'➡️';
+    return `<div class="item"><div class="split"><div><b>🎵 ${song.title}</b><div class="small">${song.genre} • Calidad ${song.quality}/4 • ${song.age||0} meses</div></div><span class="tag">${trend} ${Math.round(song.popularity||0)}/100</span></div><div class="grid3" style="margin-top:10px"><div><b>${numFmt(song.streams)}</b><div class="small">reproducciones</div></div><div><b>${numFmt(song.likes)}</b><div class="small">likes</div></div><div><b>+${numFmt(song.fans)}</b><div class="small">fans iniciales</div></div></div></div>`;
+  }).join('');
+}
+function renderProjects(){
+  const el=document.getElementById('projectList');
+  if(!el)return;
+  if(!s.projects.length){el.innerHTML='<p class="muted">Todavía no tenés EPs ni álbumes. Creá canciones hasta reunir las necesarias.</p>';return;}
+  el.innerHTML=s.projects.slice(0,15).map(p=>`<div class="item"><div class="split"><div><b>💿 ${p.name}</b><div class="small">${p.type==='EP'?'EP':'Álbum'} • ${p.songs} canciones • Portada: ${p.cover}</div></div><span class="tag ${p.hit?'good':'bad'}">${p.hit?'🔥 ÉXITO':'📉 FRACASO'}</span></div><div class="small" style="margin-top:8px">Presupuesto: ${moneyFmt(p.budget)} • Potencial: ${Math.round(p.score)}</div></div>`).join('');
+}
+function makePost(){
+  if(s.retired){toast('🏁 Tu carrera terminó. No podés publicar.');return;}
+  const type=document.getElementById('postType')?.value||'MUSIC';
+  const data={
+    MUSIC:['🎵','Nuevo teaser de música','La próxima canción está en camino 👀'],
+    LIFE:['📸','Un día en mi vida','Seguimos trabajando. Paso a paso.'],
+    THANKS:['❤️','Gracias a los fans','Gracias por bancar este sueño ❤️'],
+    BOLD:['😈','Declaración','Algunos todavía no entienden lo que se viene.'],
+    COLLAB:['🤝','Adelanto de colaboración','Se viene algo con alguien que respeto mucho 👀']
+  }[type]||['📱','Nueva publicación','Seguimos.'];
+  const base=Math.max(80,Math.floor(s.fans*.018)+Math.floor(s.fame*120)+Math.floor(Math.random()*1200));
+  const likes=Math.max(20,Math.floor(base*(.12+Math.random()*.12)));
+  const comments=Math.max(3,Math.floor(likes*(.015+Math.random()*.03)));
+  const gain=Math.max(20,Math.floor(likes*.16));
+  s.posts.unshift({date:`${monthName(s.month)} ${s.year}`,type,title:data[1],text:data[2],likes,comments});
+  s.posts=s.posts.slice(0,30);
+  s.fans+=gain;
+  s.fame+=type==='BOLD'?3:1;
+  if(type==='MUSIC')s.reputation.comercial+=1;
+  if(type==='LIFE')s.reputation.misterioso+=1;
+  if(type==='THANKS')s.reputation.profesional+=1;
+  if(type==='BOLD'){s.reputation.problematico+=5;s.reputation.profesional=Math.max(0,s.reputation.profesional-1);}
+  if(type==='COLLAB')s.reputation.profesional+=2;
+  log(`📱 Publicaste en Instagram: “${data[1]}” (+${numFmt(gain)} fans).`);
+  const msg=document.getElementById('socialMsg');
+  if(msg)msg.innerHTML=`<div class="notice good">🔥 Publicación subida. +${numFmt(gain)} fans • ${numFmt(likes)} likes • ${numFmt(comments)} comentarios.</div>`;
+  updateAll();
+  show('social',document.querySelectorAll('.nav button')[3]);
+}
+function postSocial(){makePost();}
+function renderSocial(){
+  const followers=document.getElementById('igFollowers'), posts=document.getElementById('igPosts'), engagement=document.getElementById('igEngagement');
+  if(!followers)return;
+  followers.textContent=numFmt(s.fans);
+  posts.textContent=s.posts.length;
+  const totalLikes=s.posts.reduce((a,p)=>a+(p.likes||0),0), totalComments=s.posts.reduce((a,p)=>a+(p.comments||0),0);
+  const rate=s.fans>0?((totalLikes+totalComments)/Math.max(1,s.fans)*100):0;
+  engagement.textContent=(Math.min(99,rate)).toFixed(1)+'%';
+  const profile=document.getElementById('igProfile');
+  if(profile)profile.innerHTML=`<div class="notice">@${(s.name||'artista').toLowerCase().replace(/[^a-z0-9_]/g,'_')} • ${numFmt(s.fans)} seguidores</div>`;
+  const feed=document.getElementById('feed');
+  if(feed)feed.innerHTML=s.posts.length?s.posts.slice(0,12).map(p=>`<div class="item"><div class="small">${p.date}</div><b>${p.title}</b><p class="muted">${p.text}</p><span class="tag">❤️ ${numFmt(p.likes)}</span> <span class="tag">💬 ${numFmt(p.comments)}</span></div>`).join(''):'<p class="muted">Todavía no publicaste nada. Tu primera publicación puede ayudarte a construir audiencia.</p>';
+}
+function renderRelations(){
+  let names=['Duki','Bad Bunny','Bizarrap','Feid','Karol G','Emilia','Drake','Milo J','Omar Courtz','Americano4KT','Topboy'];
+  let el=document.getElementById('relationsList');
+  el.innerHTML=names.map(n=>{
+    let a=worldArtists.find(x=>x.name===n)||{name:n,fans:100000000,genre:'Urbano',like:50};
+    if(!s.relations[n])s.relations[n]={score:0,status:'Neutral'};
+    let score=relationScore(a);
+    let status=relationStatus(score);
+    let opinion=relationOpinion(a,score);
+    let required=a.freeCollab?62:72; let respectNeed=score<25?'Necesitás demostrar talento antes de intentar una colaboración.':score<required?`Seguí sacando música buena: necesitás ${required}/100 de respeto para colaborar.`:'Ya te respeta lo suficiente; una colaboración empieza a ser posible.';
+    return `<div class="relation"><div class="itemTop"><div><b>${n}</b><div class="small">${a.genre} • ${status} ${a.freeCollab?'• 🆓 colaboración gratis':''}</div></div><span class="tag">Respeto: ${score}/100</span></div><p class="muted">🎧 ${opinion}.</p><p class="small">${respectNeed}</p><div class="relationBar">${[0,1,2,3,4].map(i=>`<i class="${score>i*20?'on':''}"></i>`).join('')}</div><div class="actions" style="margin-top:10px"><button class="btn" onclick="collabArtist('${n}')">🤝 Intentar colaboración</button><button class="btn blue" onclick="interactArtist('${n}')">💬 Interactuar</button></div></div>`
+  }).join('');
+}
+function collabArtist(n){
+ let a=worldArtists.find(x=>x.name===n)||{like:50};
+ let score=relationScore(a);
+ let required=a.freeCollab?62:72;
+ if(score<required){toast(`❌ ${n} todavía no te tiene el respeto suficiente (${score}/${required}). Necesitás más éxitos, canciones fuertes y constancia.`);return}
+ let cost=a.freeCollab?0:Math.max(3500,Math.floor(24000-score*110));
+ if(s.money<cost){toast(`💸 Necesitás ${moneyFmt(cost)} para producir esta colaboración.`);return}
+ s.money-=cost;
+ let gain=Math.floor(1800+score*360+(a.freeCollab?1200:0));
+ s.fans+=gain;s.fame+=a.freeCollab?8:12;
+ s.relations[n]=s.relations[n]||{score:0};
+ s.relations[n].score=Math.min(100,(s.relations[n].score||0)+(a.freeCollab?6:8));
+ s.reputation.profesional+=2;
+ log(`🤝 Colaboración con ${n} conseguida ${a.freeCollab?'sin costo de producción':'tras ganarte su respeto'}.`);
+ toast(a.freeCollab?`🔥 Colaboración con ${n}: GRATIS • +${numFmt(gain)} fans.`:`🔥 Colaboración con ${n}: +${numFmt(gain)} fans.`);
+ advanceTime(1,true);
+}
+function interactArtist(n){
+  let a=worldArtists.find(x=>x.name===n)||{like:50};
+  let r=s.relations[n]||{score:0};
+  let talent=relationScore(a);
+  let gain=talent>=75?3:talent>=50?2:1;
+  r.score=Math.max(-100,Math.min(100,(r.score||0)+gain));
+  s.relations[n]=r;
+  s.reputation.profesional+=1;
+  log(`🤝 Intentaste acercarte a ${n}.`);
+  toast(`🤝 ${n} aumentó su respeto por vos +${gain}.`);
+  updateAll();
+}
+function renderCareer(){let offers=[];if(s.fans>5000)offers.push({name:'Sello Indie Global',advance:12000,pct:15,years:2});if(s.fans>50000)offers.push({name:'Major Records',advance:50000,pct:25,years:2});if(s.fans>500000)offers.push({name:'World Music Group',advance:250000,pct:20,years:3});let el=document.getElementById('labelOffers');if(!offers.length)el.innerHTML='<div class="notice">🏢 Todavía no hay grandes sellos golpeando tu puerta. Llegá a 5K fans para empezar a recibir ofertas.</div>';else el.innerHTML=offers.map((o,i)=>`<div class="offer"><b>🏢 ${o.name}</b><p class="small">Adelanto: ${moneyFmt(o.advance)} • Regalías: ${o.pct}% • Duración: ${o.years} años</p><div class="actions"><button class="btn primary" onclick="signLabel(${i})">FIRMAR</button><button class="btn" onclick="toast('Rechazaste la oferta de '+${JSON.stringify(o.name)})">RECHAZAR</button></div></div>`).join('');let r=s.reputation;document.getElementById('repBox').innerHTML=Object.entries(r).map(([k,v])=>{let names={callejero:'🔥 Callejero',comercial:'💎 Comercial',profesional:'🎤 Profesional',problematico:'😈 Problemático',misterioso:'🤫 Misterioso'};return `<div style="margin:12px 0"><div class="split"><b>${names[k]}</b><span>${v}</span></div><div class="meter"><i style="width:${Math.min(100,v*5)}%"></i></div></div>`}).join('');renderAwards()}
+function signLabel(i){let offers=[];if(s.fans>5000)offers.push({name:'Sello Indie Global',advance:12000,pct:15,years:2});if(s.fans>50000)offers.push({name:'Major Records',advance:50000,pct:25,years:2});if(s.fans>500000)offers.push({name:'World Music Group',advance:250000,pct:20,years:3});let o=offers[i];s.label=o;s.money+=o.advance;s.reputation.profesional+=5;log(`🏢 Firmaste con ${o.name} por ${o.years} años.`);toast(`🏢 Contrato firmado. +${moneyFmt(o.advance)} de adelanto.`);updateAll()}
+function renderAwards(){let candidates=[['Nominación Revelación',20000],['Mejor Canción',60000],['Mejor Álbum',100000],['Artista del Año',250000]];let el=document.getElementById('awards');el.innerHTML=candidates.map((a,i)=>{let chance=Math.min(70,5+s.fame/2+s.projects.length*8);return `<div class="award"><div class="split"><b>🏆 ${a[0]}</b><span class="tag">Probabilidad aprox. ${Math.floor(chance)}%</span></div><div class="small">Premio: ${moneyFmt(a[1])} + gran aumento de fama. Se evalúa al avanzar el año.</div></div>`}).join('')}
+function yearlyAwards(){let chance=Math.min(80,5+s.fame/2+s.projects.length*10);if(Math.random()*100<chance){let names=['Premio Revelación','Mejor Canción','Mejor Álbum','Artista del Año'];let award=names[Math.min(names.length-1,Math.floor(s.fame/30))]||'Premio Revelación';s.awards.push(award);s.fame+=25;s.fans+=Math.floor(s.fans*.08)+5000;s.money+=50000;log(`🏆 Ganaste ${award}. Tu fama explotó.`)}}
+function renderWorld(){let el=document.getElementById('tourList');el.innerHTML=tourCities.map(c=>{let min=c[2],cost=c[4];let possible=s.fans>=min;return `<div class="tour"><div class="split"><div><b>🌎 ${c[0]}</b><div class="small">${c[1]} • mínimo ${numFmt(min)} fans</div></div><span class="tag">💰 costo ${moneyFmt(cost)}</span></div><div class="small" style="margin:8px 0">Potencial de fans: hasta ${numFmt(c[3])}</div><button class="btn ${possible?'primary':''}" ${possible?'':'disabled'} onclick="tour(${JSON.stringify(c[0])},${cost},${c[3]})">${possible?'🎤 TOCAR':'🔒 BLOQUEADO'}</button></div>`}).join('');let others=['🇦🇷 Un artista argentino subió en el ranking.','🌎 Un nuevo festival internacional anuncia su cartel.','🎵 Un álbum sorpresa está dominando las listas.','📈 El mercado urbano está creciendo este mes.'];document.getElementById('worldNews').innerHTML=others.map(x=>`<div class="notice">${x}</div>`).join('')}
+function tour(city,cost,cap){if(s.money<cost){toast('💸 No tenés suficiente dinero para esta gira.');return}s.money-=cost;let sold=Math.floor(Math.min(cap,s.fans*(.08+Math.random()*.12)));let gain=Math.floor(sold*(.6+Math.random()*.7));s.fans+=gain;s.fame+=Math.max(1,Math.floor(gain/10000));s.reputation.profesional+=2;log(`🌎 Tocaste en ${city}: +${numFmt(gain)} fans.`);toast(`🎤 Show en ${city}: +${numFmt(gain)} fans.`);advanceTime(1,true)}
+function renderLife(){document.getElementById('shop').innerHTML=shopItems.map((x,i)=>{let own=s.owned.includes(x[0]);return `<div class="item"><div class="split"><div><b>${x[1]} ${x[0]}</b><div class="small">${x[3]}</div></div><span class="tag">${own?'COMPRADO':moneyFmt(x[2])}</span></div><button class="btn ${own?'green':'primary'}" ${own?'disabled':''} onclick="buy(${i})">${own?'✓ PROPIEDAD':'COMPRAR'}</button></div>`}).join('')}
+function buy(i){const x=shopItems[i];if(!x){return}if(s.owned.includes(x[0])){toast('Ya tenés '+x[0]+'.');return}if(Number(s.money)<Number(x[2])){toast(`💸 Necesitás ${moneyFmt(x[2])}. Tenés ${moneyFmt(s.money)}.`);return}s.money-=Number(x[2]);s.owned.push(x[0]);if(x[0]==='Estudio propio')s.reputation.profesional+=5;log(`🏠 Compraste ${x[0]}.`);toast(`✨ Compraste ${x[0]}.`);updateAll()}
+function renderRanking(){let arr=[...rankScale,{name:s.name,fans:s.fans,me:true}].sort((a,b)=>b.fans-a.fans);const pos=arr.findIndex(x=>x.me)+1;const p=document.getElementById('rankingMyPos'),f=document.getElementById('rankingMyFans');if(p)p.textContent='#'+pos;if(f)f.textContent=numFmt(s.fans)+' fans';document.getElementById('rankList').innerHTML=arr.map((x,i)=>`<div class="ranking ${x.me?'me':''}"><div class="left"><span class="medal">${i===0?'👑':i===1?'🥈':i===2?'🥉':'#'+(i+1)}</span><div><b>${x.name}</b>${x.me?'<div class="small">TU ARTISTA</div>':''}</div></div><div class="fansBig">${numFmt(x.fans)}</div></div>`).join('')}
+function renderHome(){let n=s.news[0];document.getElementById('homeNews').innerHTML=`<div class="notice warn">📰 <b>RITMO NEWS — ${monthName(s.month).toUpperCase()} ${s.year}</b><br>${n||'Tu carrera recién comienza. El mundo todavía no sabe quién sos.'}</div>`;let objs=[`Llegá a ${numFmt(Math.max(10000,s.fans*2))} fans`,`Lanzá un EP o álbum`,`Conseguí una colaboración importante`,`Subí al menos 10 puestos en el ranking`,`Superá 1B antes de cumplir 30`];document.getElementById('objectives').innerHTML=objs.map(x=>`<div class="notice">🎯 ${x}</div>`).join('');document.getElementById('activity').innerHTML=s.activity.length?s.activity.slice(0,8).map(x=>`<div class="item"><span class="small">${x.date}</span><br>${x.text}</div>`).join(''):'<p class="muted">Todavía no hay actividad.</p>'}
+function renderNews(){let lines=[`Tu carrera empieza a llamar la atención en ${s.country}.`,`Tu canción más popular tiene ${numFmt(s.songs[0]?.streams||0)} reproducciones.`,`Tu imagen pública está creciendo: ${reputation()}.`];s.news=[lines[Math.floor(Math.random()*lines.length)]];log('📰 '+s.news[0])}
+function checkVictory(){if(s.fans>=1000000000){endGame(true,'top1');return true}return false}
+function retireArtist(){if(s.retired){toast('Ya estás retirado.');return}if(s.pendingEvent){toast('Primero resolvé el evento que tenés pendiente.');return}let ok=confirm(`¿Querés retirarte a los ${s.age} años? Tu carrera terminará definitivamente con ${numFmt(s.fans)} fans.`);if(!ok)return;s.retired=true;save();endGame(false,'retire')}
+function endGame(win,reason='time'){
+ let box=document.getElementById('eventModalBox');
+ if(reason==='retire'){
+  box.innerHTML=`<div class="eyebrow">FIN DE CARRERA</div><h2 style="font-size:42px">🏁 TE RETIRASTE</h2><p class="muted">${s.name} decidió retirarse a los ${s.age} años después de construir una carrera con <b>${numFmt(s.fans)} fans</b>.</p><div class="grid3" style="margin:18px 0"><div class="item"><b>${numFmt(s.fans)}</b><div class="small">fans</div></div><div class="item"><b>${s.fame}</b><div class="small">fama</div></div><div class="item"><b>#${getRank()}</b><div class="small">ranking final</div></div></div><button class="btn primary" onclick="document.getElementById('eventModal').classList.remove('show')">VER MI CARRERA</button>`;
+ }else if(win){
+  box.innerHTML=`<div class="eyebrow">OBJETIVO COMPLETADO</div><h2 style="font-size:42px">👑 TOP 1 MUNDIAL</h2><p class="muted">${s.name} superó 1.000.000.000 de fans antes de cumplir 30. Tu carrera terminó en la cima.</p><button class="btn primary" onclick="document.getElementById('eventModal').classList.remove('show')">SEGUIR JUGANDO</button>`;
+ }else{
+  box.innerHTML=`<div class="eyebrow">FIN DEL DESAFÍO</div><h2 style="font-size:42px">⏰ Se acabó el tiempo</h2><p class="muted">Cumpliste 30 años con ${numFmt(s.fans)} fans. No alcanzaste el TOP 1.</p><button class="btn" onclick="document.getElementById('eventModal').classList.remove('show')">VER MI CARRERA</button>`;
+ }
+ document.getElementById('eventModal').classList.add('show');
+}
+function monthlyUpdate(){renderNews();if(s.month===1)yearlyAwards();checkVictory()}
+const originalAdvance=advanceTime;advanceTime=function(months=1,skipEvent=false){for(let k=0;k<months;k++){s.month++;s.monthCount++;if(s.month>12){s.month=1;s.year++;s.age++;annualChanges();yearlyAwards()}updateSongs();s.money+=Math.max(250,Math.floor(s.fans*.00004));renderNews();if(!skipEvent&&Math.random()<.65)monthlyEvent();if(checkVictory())break;if(s.age>=30){endGame(false);break}}updateAll()}
+
+function newGame(){if(!confirm('¿Seguro que querés borrar la partida actual y empezar de cero?'))return;localStorage.removeItem('ritmoSaveV9');location.reload()}
+
+
+/* RITMO 2.0 FINAL PATCH: premios anuales + noticias del mundo + conflictos variados */
+const RITMO_AWARD_LEVELS=[
+ {name:'Premio Lo Nuestro',minFame:8,emoji:'🟢',categories:['Artista Urbano del Año','Canción Urbana del Año','Artista Revelación','Mejor Canción de Reggaetón','Mejor Canción de Trap','Mejor Dúo/Colaboración']},
+ {name:'Premios Billboard de la Música Latina',minFame:22,emoji:'🔵',categories:['Artista Urbano del Año','Álbum Urbano del Año','Canción Urbana del Año','Artista con Mayor Crecimiento','Artista Más Comercial','Mejor Video Musical','Artista Urbano Internacional']},
+ {name:'Latin GRAMMY Awards',minFame:42,emoji:'🟣',categories:['Mejor Álbum de Música Urbana','Mejor Canción Urbana','Mejor Interpretación Reggaetón','Mejor Interpretación Urbana/Fusión Urbana','Mejor Canción de Rap/Hip-Hop','Artista Urbano del Año']},
+ {name:'GRAMMY Awards',minFame:68,emoji:'🟡',categories:['Best Música Urbana Album','Mejor Canción de Rap/Hip-Hop','Mejor Interpretación Urbana','Mejor Álbum del Año','Artista Urbano Internacional']}
+];
+function playerAwardScore(){
+ let hitSongs=s.songs.filter(x=>x.popularity>=55).length;
+ let hitProjects=s.projects.filter(x=>x.hit).length;
+ let collabs=s.relations?Object.values(s.relations).filter(x=>(x.score||0)>=72).length:0;
+ return s.fame*1.15 + Math.log10(Math.max(1,s.fans))*9 + hitSongs*10 + hitProjects*16 + collabs*5;
+}
+function artistAwardScore(a){
+ return (a.tier||1)*30 + (a.like||50)*.7 + Math.log10(Math.max(1,a.fans))*8 + Math.random()*22;
+}
+function yearlyAwards(){
+ if(s.retired)return;
+ const ceremonies=RITMO_AWARD_LEVELS.filter(x=>s.fame>=x.minFame);
+ if(!ceremonies.length){addNews(`🏆 Temporada de premios: todavía necesitás más fama para entrar a las grandes ceremonias.`);return;}
+ let headlines=[];
+ for(const ceremony of ceremonies){
+   let cats=ceremony.categories.slice(0, Math.min(ceremony.categories.length, 3 + Math.floor(s.fame/35)));
+   let ceremonyWins=0;
+   for(const cat of cats){
+     const candidates=worldArtists.filter(a=>a.name!==s.name);
+     let best=candidates.map(a=>({name:a.name,score:artistAwardScore(a)}));
+     const pScore=playerAwardScore()+Math.random()*45;
+     best.push({name:s.name,score:pScore,player:true});
+     best.sort((a,b)=>b.score-a.score);
+     const winner=best[0];
+     if(winner.player){
+       ceremonyWins++;
+       const award={year:s.year,ceremony:ceremony.name,category:cat,winner:s.name};
+       s.awards.unshift(award);
+       s.fame+=Math.max(5,Math.floor(ceremony.minFame/4));
+       s.fans+=Math.floor(s.fans*.025)+1500;
+       s.money+=ceremony.minFame*700;
+       headlines.push(`🏆 ${ceremony.name}: ${s.name} ganó “${cat}”.`);
+     }else{
+       headlines.push(`🏆 ${ceremony.name}: ${winner.name} ganó “${cat}”.`);
+       s.awards.unshift({year:s.year,ceremony:ceremony.name,category:cat,winner:winner.name});
+     }
+   }
+   if(ceremonyWins) log(`🏆 ${s.name} ganó ${ceremonyWins} premio(s) en ${ceremony.name}.`);
+ }
+ s.awards=s.awards.slice(0,80);
+ s.news.unshift(`🏆 PREMIOS ${s.year}: ${headlines.slice(0,8).join(' • ')}`);
+ s.news=s.news.slice(0,30);
+}
+function renderAwards(){
+ const el=document.getElementById('awards');
+ const ceremonies=RITMO_AWARD_LEVELS.map(c=>{
+   const unlocked=s.fame>=c.minFame;
+   return `<div class="award"><div class="split"><b>${c.emoji} ${c.name}</b><span class="tag ${unlocked?'good':''}">${unlocked?'ACCESIBLE':'🔒 '+c.minFame+' fama'}</span></div><div class="small">${unlocked?'Cada año competís por categorías y se publica el ganador.':'Seguí construyendo tu carrera para llegar a esta ceremonia.'}</div></div>`;
+ }).join('');
+ const history=s.awards.length?s.awards.slice(0,18).map(a=>`<div class="item"><b>${a.year} — ${a.ceremony}</b><br>🏆 ${a.category} — <strong>${a.winner}</strong>${a.winner===s.name?' 👑':''}</div>`).join(''):'<p class="muted">Todavía no tenés historial de premios.</p>';
+ el.innerHTML=`<h3>🎟️ Escalera de premios</h3>${ceremonies}<h3 style="margin-top:20px">📜 Ganadores e historial</h3>${history}`;
+}
+function conflictArtistPool(){
+ return worldArtists.filter(a=>a.name!==s.name && a.name);
+}
+function generateConflict(){
+ const pool=conflictArtistPool();
+ const a=pool[Math.floor(Math.random()*pool.length)];
+ if(!s.relations[a.name])s.relations[a.name]={score:0,status:'Neutral'};
+ const r=s.relations[a.name];
+ const score=r.score||0;
+ const templates=[
+  {title:`🔥 ${a.name} lanza una indirecta sobre tu estilo.`,kind:'indirecta'},
+  {title:`📊 La prensa compara tus números con los de ${a.name}.`,kind:'comparacion'},
+  {title:`🎤 Un festival anuncia que vos y ${a.name} compartirán escenario. La tensión crece.`,kind:'festival'},
+  {title:`📱 Un clip de una discusión entre tu equipo y el equipo de ${a.name} se vuelve viral.`,kind:'equipo'},
+  {title:`💿 Tu lanzamiento coincide con el de ${a.name} y los fans empiezan a enfrentarse.`,kind:'lanzamientos'},
+  {title:`🤝 Una colaboración que parecía posible con ${a.name} se enfría de repente.`,kind:'colab'},
+  {title:`📰 Un periodista instala el rumor de una rivalidad entre vos y ${a.name}.`,kind:'rumor'},
+  {title:`👥 Los fandoms de ambos artistas empiezan una discusión en redes.`,kind:'fandom'},
+  {title:`🏆 La prensa debate si vos o ${a.name} merecían ganar el mismo premio.`,kind:'premio'},
+  {title:`🎧 Un productor trabaja con ambos y aparece una disputa por una oportunidad.`,kind:'productor'},
+  {title:`💬 Un comentario viejo tuyo sobre ${a.name} reaparece y genera polémica.`,kind:'viejo'},
+  {title:`🌎 En una entrevista internacional te preguntan si ${a.name} es mejor que vos.`,kind:'entrevista'}
+ ];
+ const t=templates[Math.floor(Math.random()*templates.length)];
+ const severity=1+Math.floor(Math.random()*4);
+ const calm=`🤫 No entrar en la pelea`;
+ let options;
+ if(t.kind==='colab' && score>=55){
+   options=[
+    ['🤝 Intentar arreglarlo',()=>{r.score=Math.min(100,score+6);s.reputation.profesional+=3;s.fame+=2;return `🤝 Hablaste con ${a.name} y la colaboración vuelve a ser posible. Respeto +6.`}],
+    ['😈 Hacerlo público',()=>{r.score-=10+severity*2;s.reputation.problematico+=6;s.fame+=5;s.fans+=800*severity;return `🔥 Convertiste la ruptura en polémica: +${5} fama, +${800*severity} fans.`}]
+   ];
+ }else{
+   options=[
+    ['🔥 Responder públicamente',()=>{r.score-=8+severity*3;s.reputation.problematico+=4+severity;s.fame+=3+severity;s.fans+=Math.floor(700*severity);return `🔥 Respondiste a ${a.name}. La polémica creció: +${3+severity} fama y +${700*severity} fans.`}],
+    [calm,()=>{r.score-=Math.max(1,Math.floor(severity/2));s.reputation.profesional+=2;s.fame+=1;return `🎤 Ignoraste el conflicto y priorizaste tu carrera. +2 profesional.`}],
+    ['🤝 Buscar una solución privada',()=>{let delta=score<20?2+severity:5+severity;r.score=Math.min(100,score+delta);s.reputation.profesional+=3;return `🤝 Resolviste el problema en privado con ${a.name}. Respeto +${delta}.`}]
+   ];
+ }
+ showEvent(t.title,options);
+}
+function monthlyEvent(){
+ if(s.pendingEvent)return;
+ const roll=Math.random();
+ if(roll<.38)return generateConflict();
+ const events=[
+  ['📰 Un medio importante quiere entrevistarte sobre tu crecimiento.',[['🎤 Dar la entrevista',()=>{s.fame+=4;s.fans+=1200;s.reputation.profesional+=2;return '+4 fama y +1.200 fans.'}],['🤫 Mantener misterio',()=>{s.reputation.misterioso+=4;s.fame+=2;return '+4 misterio y +2 fama.'}]]],
+  ['🔥 Una parte de tu público pide que anuncies música nueva.',[['📢 Anunciar single',()=>{s.fans+=2200;s.reputation.comercial+=2;return '+2.200 fans.'}],['🎧 No revelar nada',()=>{s.reputation.misterioso+=3;return '+3 misterio.'}]]],
+  ['💰 Un negocio local te ofrece una pequeña campaña.',[['💵 Aceptar',()=>{s.money+=1800;s.reputation.comercial+=3;return '+$1.800 y +3 comercial.'}],['🎤 Rechazar',()=>{s.reputation.profesional+=2;return '+2 profesional.'}]]],
+  ['🏆 Un periodista te coloca entre los artistas emergentes a seguir.',[['🚀 Aprovechar el momento',()=>{s.fame+=5;s.fans+=3500;return '+5 fama y +3.500 fans.'}],['🤫 No alimentar el hype',()=>{s.reputation.misterioso+=2;s.fame+=2;return '+2 misterio y +2 fama.'}]]]
+ ];
+ const e=events[Math.floor(Math.random()*events.length)];showEvent(e[0],e[1]);
+}
+function renderNews(){
+ const dynamic=[
+  `🎵 ${worldArtists[Math.floor(Math.random()*worldArtists.length)].name} está preparando un lanzamiento que genera expectativa.`,
+  `📈 ${worldArtists[Math.floor(Math.random()*worldArtists.length)].name} subió posiciones en el ranking mundial ficticio de RITMO.`,
+  `🌎 Una nueva gira internacional está cambiando el mapa de la música urbana del universo de RITMO.`,
+  `🔥 Un artista emergente sorprendió este mes con un crecimiento acelerado.`
+ ];
+ s.news.unshift(dynamic[Math.floor(Math.random()*dynamic.length)]);s.news=s.news.slice(0,30);
+}
+function renderWorld(){
+ let el=document.getElementById('tourList');el.innerHTML=tourCities.map(c=>{let min=c[2],cost=c[4];let possible=s.fans>=min;return `<div class="tour"><div class="split"><div><b>🌎 ${c[0]}</b><div class="small">${c[1]} • mínimo ${numFmt(min)} fans</div></div><span class="tag">💰 costo ${moneyFmt(cost)}</span></div><div class="small" style="margin:8px 0">Potencial de fans: hasta ${numFmt(c[3])}</div><button class="btn ${possible?'primary':''}" ${possible?'':'disabled'} onclick="tour(${JSON.stringify(c[0])},${cost},${c[3]})">${possible?'🎤 TOCAR':'🔒 BLOQUEADO'}</button></div>`}).join('');
+ document.getElementById('worldNews').innerHTML=s.news.slice(0,14).map(x=>`<div class="notice">${x}</div>`).join('');
+}
+
+
+/* ================= RITMO 3.0 — MODO LEYENDA ================= */
+function ensureLegendState(){
+  if(s.relations&&s.relations['4KT']&&!s.relations['Americano4KT']){s.relations['Americano4KT']=s.relations['4KT'];delete s.relations['4KT'];}
+  s.milestones=s.milestones||[];
+  s.rivalries=s.rivalries||{};
+  s.world=s.world||{};
+  s.legend=s.legend||{};
+  worldArtists.forEach((a,i)=>{
+    if(!s.world[a.name]) s.world[a.name]={fans:a.fans,age:22+(i%16),albums:0,hits:0,retired:false,lastRelease:0,trend:0};
+  });
+}
+function worldData(){
+  ensureLegendState();
+  return worldArtists.map(a=>({ ...a, ...(s.world[a.name]||{}) }));
+}
+function addMilestone(key,title,detail){
+  ensureLegendState();
+  if(s.milestones.some(x=>x.key===key)) return;
+  s.milestones.unshift({key,title,detail,year:s.year,age:s.age});
+  s.milestones=s.milestones.slice(0,30);
+  log(`🌟 ${title}`);
+}
+function checkMilestones(){
+  ensureLegendState();
+  if(s.songs.length>=1)addMilestone('first_song','🎵 Tu primer lanzamiento','La carrera comenzó oficialmente.');
+  if(s.projects.length>=1)addMilestone('first_project','💿 Tu primer proyecto','Dejaste de ser solamente un artista de singles.');
+  if(Object.values(s.relations||{}).some(r=>(r.score||0)>=72))addMilestone('first_big_respect','🤝 Ganaste el respeto de un artista importante','Una relación importante se convirtió en una oportunidad real.');
+  if(s.awards.length>=1)addMilestone('first_award','🏆 Tu primer premio','Entraste oficialmente al circuito de premios.');
+  if(s.songs.some(x=>x.popularity>=80))addMilestone('first_hit','🔥 Tu primer hit','Una canción alcanzó nivel de fenómeno.');
+  if(s.fans>=1000000)addMilestone('one_million','👥 Primer millón de fans','Tu nombre ya es conocido masivamente.');
+  if(getRank()<=10)addMilestone('top10','🏆 Entraste al TOP 10','Ya estás entre los artistas más grandes del mundo.');
+  if(getRank()===1)addMilestone('top1','👑 Llegaste al TOP 1','Superaste la barrera del líder mundial.');
+  if(s.fans>=100000000)addMilestone('100m','🌎 100M de fans','Tu carrera se volvió global.');
+  if(s.fans>=500000000)addMilestone('500m','🌍 500M de fans','Entraste en territorio de superestrella mundial.');
+  if(s.fans>=1000000000)addMilestone('1b','🐐 1B DE FANS','Te convertiste en una leyenda de RITMO.');
+}
+function simulateWorldMonth(){
+  ensureLegendState();
+  const news=[];
+  for(const a of worldArtists){
+    const w=s.world[a.name];
+    if(w.retired) continue;
+    const base=Math.max(100,Math.floor(w.fans*(0.002+Math.random()*0.012)));
+    const direction=Math.random()<0.15?-1:1;
+    w.trend=Math.floor(base*direction);
+    w.fans=Math.max(1000,w.fans+w.trend);
+    w.age+=Math.random()<0.03?1:0;
+    w.lastRelease=(w.lastRelease||0)+1;
+    if(Math.random()<0.10){
+      w.albums++;
+      const titles=['Nuevo Proyecto','Nueva Era','Sin Avisar','Modo Global','Temporada','Después de Todo','La Vuelta'];
+      const title=titles[Math.floor(Math.random()*titles.length)];
+      const boost=Math.floor(w.fans*(0.01+Math.random()*0.04));
+      w.fans+=boost;w.hits+=Math.random()<0.35?1:0;
+      news.push(`💿 <b>${a.name}</b> lanzó <b>“${title}”</b> y generó ${numFmt(boost)} nuevos fans en el universo de RITMO.`);
+    } else if(Math.random()<0.035 && w.age>=35){
+      w.retired=true;
+      news.push(`🏁 <b>${a.name}</b> anunció su retiro después de una larga carrera.`);
+    } else if(Math.random()<0.08){
+      news.push(`📈 <b>${a.name}</b> ${w.trend>=0?'subió':'bajó'} en el ranking mundial este mes.`);
+    }
+  }
+  if(!news.length){
+    const a=worldArtists[Math.floor(Math.random()*worldArtists.length)];
+    news.push(`🌎 <b>${a.name}</b> continúa moviendo el mercado urbano mientras tu carrera sigue creciendo.`);
+  }
+  s.news=(news.concat(s.news||[])).slice(0,40);
+}
+function worldRanking(){
+  ensureLegendState();
+  return [...worldData(),{name:s.name,fans:s.fans,me:true,retired:false}].filter(x=>!x.retired||x.me).sort((a,b)=>b.fans-a.fans);
+}
+function getRank(){return worldRanking().findIndex(x=>x.me)+1}
+function nextRankText(){const arr=worldRanking();const i=arr.findIndex(x=>x.me);return i>0?`${arr[i-1].name} • ${numFmt(arr[i-1].fans)}`:'TOP 1 👑'}
+function playerAwardScore(){
+  const hits=s.songs.filter(x=>x.popularity>=55).length;
+  const projects=s.projects.filter(x=>x.hit).length;
+  const respected=Object.values(s.relations||{}).filter(x=>(x.score||0)>=72).length;
+  const wins=(s.awards||[]).filter(x=>x.winner===s.name).length;
+  return s.fame*1.35+Math.log10(Math.max(1,s.fans))*12+hits*12+projects*20+respected*7+wins*12;
+}
+function artistAwardScore(a){
+  const w=s.world[a.name]||{};
+  return (a.tier||1)*25+(a.like||50)*.7+Math.log10(Math.max(1,w.fans||a.fans))*10+(w.hits||0)*10+Math.random()*20;
+}
+function yearlyAwards(){
+  if(s.retired)return;
+  ensureLegendState();
+  const ceremonies=RITMO_AWARD_LEVELS.filter(x=>s.fame>=x.minFame);
+  if(!ceremonies.length){s.news.unshift(`🏆 Temporada ${s.year}: todavía no tenés suficiente fama para entrar a las grandes ceremonias.`);return;}
+  const headlines=[];
+  for(const ceremony of ceremonies){
+    const count=Math.min(ceremony.categories.length,Math.max(3,3+Math.floor(s.fame/30)));
+    let wins=0;
+    const used=[];
+    const cats=[...ceremony.categories].sort(()=>Math.random()-.5).slice(0,count);
+    for(const cat of cats){
+      const candidates=worldData().filter(a=>!a.retired&&a.name!==s.name).map(a=>({name:a.name,score:artistAwardScore(a)}));
+      const score=playerAwardScore()+Math.random()*35;
+      candidates.push({name:s.name,score,player:true});
+      candidates.sort((a,b)=>b.score-a.score);
+      const winner=candidates[0];
+      const award={year:s.year,ceremony:ceremony.name,category:cat,winner:winner.name,nominated:[s.name,...candidates.slice(0,4).map(x=>x.name).filter(n=>n!==s.name)]};
+      s.awards.unshift(award);
+      headlines.push(`🏆 <b>${ceremony.name}</b> — ${cat}: <b>${winner.name}</b>`);
+      if(winner.player){wins++;s.fame+=Math.max(4,Math.floor(ceremony.minFame/5));s.fans+=Math.floor(s.fans*.02)+2500;s.money+=ceremony.minFame*900;addMilestone('award_'+ceremony.name,'🏆 Ganaste un premio importante',`${ceremony.name}: ${cat}.`);}
+    }
+    if(wins)log(`🏆 Ganaste ${wins} premio(s) en ${ceremony.name}.`);
+  }
+  s.awards=s.awards.slice(0,120);
+  s.news.unshift(`🎬 <b>NOCHE DE PREMIOS ${s.year}</b><br>${headlines.slice(0,12).join('<br>')}`);
+  s.news=s.news.slice(0,40);
+}
+function renderAwards(){
+  const el=document.getElementById('awards');if(!el)return;
+  const ceremonies=RITMO_AWARD_LEVELS.map(c=>{const unlocked=s.fame>=c.minFame;return `<div class="award"><div class="split"><b>${c.emoji} ${c.name}</b><span class="tag ${unlocked?'good':''}">${unlocked?'ACCESIBLE':'🔒 '+c.minFame+' fama'}</span></div><div class="small">${unlocked?'Cada año hay nominaciones, competidores, ganadores y noticias.':'Construí tu carrera para desbloquear esta ceremonia.'}</div></div>`}).join('');
+  const history=s.awards.length?s.awards.slice(0,24).map(a=>`<div class="item"><b>${a.year} — ${a.ceremony}</b><br>🏆 ${a.category} — <strong>${a.winner}</strong>${a.winner===s.name?' 👑':''}${a.nominated?`<div class="small">Nominados: ${a.nominated.join(' • ')}</div>`:''}</div>`).join(''):'<p class="muted">Todavía no tenés historial de premios.</p>';
+  el.innerHTML=`<h3>🎟️ Escalera de premios</h3>${ceremonies}<h3 style="margin-top:20px">📜 Ganadores e historial</h3>${history}`;
+}
+function rivalryTarget(){
+  ensureLegendState();
+  const active=Object.keys(s.rivalries).filter(n=>!s.rivalries[n].resolved);
+  if(active.length)return active[Math.floor(Math.random()*active.length)];
+  const pool=worldArtists.filter(a=>!s.world[a.name]?.retired&&a.name!==s.name).filter(a=>(s.relations[a.name]?.score||0)<65);
+  return (pool.length?pool:worldArtists).sort(()=>Math.random()-.5)[0].name;
+}
+function generateConflict(){
+  ensureLegendState();
+  const n=rivalryTarget();const a=worldArtists.find(x=>x.name===n)||worldArtists[0];
+  const r=s.relations[n]||{score:0,status:'Neutral'};s.relations[n]=r;
+  const rr=s.rivalries[n]||{stage:0,months:0,resolved:false};rr.stage=Math.min(7,(rr.stage||0)+1);rr.months=(rr.months||0)+1;rr.resolved=false;s.rivalries[n]=rr;
+  const stage=rr.stage;
+  const stories=[
+    `📊 La prensa empieza a compararte con ${n}.`,`📱 Una indirecta de ${n} se vuelve viral.`,`🎤 Sus equipos tienen un cruce detrás de escena.`,`💿 Tus lanzamientos coinciden y nace una competencia por el #1.`,`🔥 Los fandoms convierten la rivalidad en tendencia.`,`🏆 La discusión llega a una ceremonia de premios.`,`🌎 En una entrevista internacional te preguntan quién es mejor: vos o ${n}.`
+  ];
+  const title=stories[stage-1]||`🚨 La rivalidad con ${n} se convierte en uno de los temas del año.`;
+  const options=[
+    ['🔥 Responder públicamente',()=>{r.score=Math.max(-100,(r.score||0)-10-stage*2);s.reputation.problematico+=3+stage;s.fame+=2+stage;s.fans+=Math.floor(500*stage);if(stage>=4)s.news.unshift(`🔥 La rivalidad entre ${s.name} y ${n} se volvió tendencia mundial.`);return `🔥 Respondiste y la rivalidad con ${n} escaló al nivel ${stage}.`; }],
+    ['🎤 Convertirlo en competencia musical',()=>{s.reputation.profesional+=2;r.score=Math.max(-100,(r.score||0)-3);s.fame+=3+stage;s.fans+=Math.floor(900*stage);return `🎤 Convertiste la tensión con ${n} en una competencia musical. La audiencia está pendiente.`;}],
+    ['🤫 Mantenerte al margen',()=>{s.reputation.profesional+=3;s.reputation.misterioso+=1;r.score=Math.min(100,(r.score||0)+2);return `🤫 No alimentaste la polémica con ${n}. Tu imagen profesional creció.`;}],
+    ['🤝 Buscar una tregua',()=>{r.score=Math.min(100,(r.score||0)+8+stage);s.reputation.profesional+=4;rr.stage=Math.max(0,stage-2);if(rr.stage===0)rr.resolved=true;return `🤝 Intentaste arreglar las cosas con ${n}. La rivalidad bajó de intensidad.`;}]
+  ];
+  addMilestone('first_conflict','⚔️ Primera gran rivalidad',`Tu carrera entró en una historia de conflicto con ${n}.`);
+  showEvent(title,options);
+}
+function monthlyEvent(){
+  if(s.pendingEvent)return;
+  const rare=Math.random();
+  if(rare<0.045){
+    const events=[
+      ['🚨 Una canción vieja tuya revive inesperadamente y se vuelve viral.',[['🚀 Aprovechar el momento',()=>{let g=Math.floor(s.fans*.08)+15000;s.fans+=g;s.fame+=8;s.reputation.comercial+=2;return `🔥 Tu catálogo volvió a explotar: +${numFmt(g)} fans.`}],['🤫 No hacer campaña',()=>{s.fame+=3;s.reputation.misterioso+=3;return '🤫 Dejaste que el fenómeno creciera solo.'}]]],
+      ['🎬 Una plataforma quiere hacer un documental sobre tu carrera.',[['🎥 Aceptar',()=>{s.fame+=10;s.fans+=25000;s.money+=12000;return '🎬 Tu historia llega a un documental: +25K fans.'}],['🔒 Mantener privacidad',()=>{s.reputation.misterioso+=6;return '🤫 Rechazaste y reforzaste tu aura misteriosa.'}]]],
+      ['🌎 Un artista internacional te invita a abrir su gira.',[['🎤 Aceptar',()=>{s.fans+=50000;s.fame+=12;s.reputation.profesional+=4;return '🌎 Tu carrera internacional despega: +50K fans.'}],['❌ Rechazar',()=>{s.reputation.profesional+=1;return '🎤 Preferiste concentrarte en tu propio proyecto.'}]]]
+    ];
+    const e=events[Math.floor(Math.random()*events.length)];showEvent(e[0],e[1]);return;
+  }
+  if(Math.random()<.48){generateConflict();return;}
+  const events=[
+    ['📰 Un medio importante quiere entrevistarte sobre tu crecimiento.',[['🎤 Dar la entrevista',()=>{s.fame+=4;s.fans+=1200;s.reputation.profesional+=2;return '+4 fama y +1.200 fans.'}],['🤫 Mantener misterio',()=>{s.reputation.misterioso+=4;s.fame+=2;return '+4 misterio y +2 fama.'}]]],
+    ['🔥 Una parte de tu público pide música nueva.',[['📢 Anunciar single',()=>{s.fans+=2200;s.reputation.comercial+=2;return '+2.200 fans.'}],['🎧 No revelar nada',()=>{s.reputation.misterioso+=3;return '+3 misterio.'}]]],
+    ['💰 Un negocio te ofrece una campaña.',[['💵 Aceptar',()=>{s.money+=1800;s.reputation.comercial+=3;return '+$1.800 y +3 comercial.'}],['🎤 Rechazar',()=>{s.reputation.profesional+=2;return '+2 profesional.'}]]]
+  ];
+  const e=events[Math.floor(Math.random()*events.length)];showEvent(e[0],e[1]);
+}
+function renderWorld(){
+  const el=document.getElementById('tourList');
+  el.innerHTML=tourCities.map(c=>{let min=c[2],cost=c[4],possible=s.fans>=min;return `<div class="tour"><div class="split"><div><b>🌎 ${c[0]}</b><div class="small">${c[1]} • mínimo ${numFmt(min)} fans</div></div><span class="tag">💰 ${moneyFmt(cost)}</span></div><div class="small" style="margin:8px 0">Potencial: hasta ${numFmt(c[3])} fans</div><button class="btn ${possible?'primary':''}" ${possible?'':'disabled'} onclick="tour(${JSON.stringify(c[0])},${cost},${c[3]})">${possible?'🎤 TOCAR':'🔒 BLOQUEADO'}</button></div>`}).join('');
+  const world=worldData().sort((a,b)=>b.fans-a.fans).slice(0,12);
+  document.getElementById('worldNews').innerHTML=(s.news||[]).slice(0,14).map(x=>`<div class="notice">${x}</div>`).join('')+`<h3>🌎 Mundo vivo</h3>`+world.map(a=>`<div class="item"><div class="split"><b>${a.name}</b><span>${numFmt(a.fans)}</span></div><div class="small">${a.retired?'🏁 Retirado':'🔥 Activo'} • proyectos: ${a.albums||0}</div></div>`).join('');
+}
+function renderRanking(){
+  const arr=worldRanking();const pos=arr.findIndex(x=>x.me)+1;const p=document.getElementById('rankingMyPos'),f=document.getElementById('rankingMyFans');if(p)p.textContent='#'+pos;if(f)f.textContent=numFmt(s.fans)+' fans';
+  document.getElementById('rankList').innerHTML=arr.map((x,i)=>`<div class="ranking ${x.me?'me':''}"><div class="left"><span class="medal">${i===0?'👑':i===1?'🥈':i===2?'🥉':'#'+(i+1)}</span><div><b>${x.name}</b>${x.me?'<div class="small">TU ARTISTA</div>':''}${x.retired?'<div class="small">🏁 Retirado</div>':''}</div></div><div class="fansBig">${numFmt(x.fans)}</div></div>`).join('');
+}
+function renderLegend(){
+  ensureLegendState();const box=document.getElementById('legendBox');if(!box)return;
+  const top=worldRanking().slice(0,5).map((a,i)=>`${i+1}. ${a.name} — ${numFmt(a.fans)}`).join('<br>');
+  const milestones=s.milestones.slice(0,10).map(m=>`<div class="item"><b>${m.title}</b><div class="small">${m.detail} • ${m.age} años / ${m.year}</div></div>`).join('')||'<p class="muted">Todavía no hay momentos históricos.</p>';
+  box.innerHTML=`<div class="notice good"><b>👑 Tu biografía</b><br>${s.name} • ${s.age} años • ${numFmt(s.fans)} fans • mejor posición #${getRank()} • ${s.awards.filter(a=>a.winner===s.name).length} premios ganados</div><div class="grid2"><div><h3>📖 Momentos históricos</h3>${milestones}</div><div><h3>🌎 Top 5 actual</h3><div class="item">${top}</div><h3>⚔️ Rivalidades activas</h3><div class="item">${Object.entries(s.rivalries).filter(([n,r])=>!r.resolved).map(([n,r])=>`<b>${n}</b> — nivel ${r.stage}/7`).join('<br>')||'Ninguna'}</div></div></div>`;
+}
+function renderHome(){
+  const n=s.news&&s.news[0];document.getElementById('homeNews').innerHTML=`<div class="notice warn">📰 <b>RITMO NEWS — ${monthName(s.month).toUpperCase()} ${s.year}</b><br>${n||'Tu carrera recién comienza. El mundo todavía no sabe quién sos.'}</div>`;
+  const objs=[`Llegá a ${numFmt(Math.max(10000,s.fans*2))} fans`,`Lanzá un EP o álbum`,`Conseguí una colaboración importante`,`Subí al menos 10 puestos en el ranking`,`Superá 1B antes de cumplir 30`];document.getElementById('objectives').innerHTML=objs.map(x=>`<div class="notice">🎯 ${x}</div>`).join('');document.getElementById('activity').innerHTML=s.activity.length?s.activity.slice(0,8).map(x=>`<div class="item"><span class="small">${x.date}</span><br>${x.text}</div>`).join(''):'<p class="muted">Todavía no hay actividad.</p>';
+}
+function renderCareer(){
+  let offers=[];if(s.fans>5000)offers.push({name:'Sello Indie Global',advance:12000,pct:15,years:2});if(s.fans>50000)offers.push({name:'Major Records',advance:50000,pct:25,years:2});if(s.fans>500000)offers.push({name:'World Music Group',advance:250000,pct:20,years:3});let el=document.getElementById('labelOffers');if(!offers.length)el.innerHTML='<div class="notice">🏢 Todavía no hay grandes sellos golpeando tu puerta. Llegá a 5K fans para empezar a recibir ofertas.</div>';else el.innerHTML=offers.map((o,i)=>`<div class="offer"><b>🏢 ${o.name}</b><p class="small">Adelanto: ${moneyFmt(o.advance)} • Regalías: ${o.pct}% • Duración: ${o.years} años</p><div class="actions"><button class="btn primary" onclick="signLabel(${i})">FIRMAR</button><button class="btn" onclick="toast('Rechazaste la oferta de '+${JSON.stringify(o.name)})">RECHAZAR</button></div></div>`).join('');let r=s.reputation;document.getElementById('repBox').innerHTML=Object.entries(r).map(([k,v])=>{let names={callejero:'🔥 Callejero',comercial:'💎 Comercial',profesional:'🎤 Profesional',problematico:'😈 Problemático',misterioso:'🤫 Misterioso'};return `<div style="margin:12px 0"><div class="split"><b>${names[k]}</b><span>${v}</span></div><div class="meter"><i style="width:${Math.min(100,v*5)}%"></i></div></div>`}).join('');renderAwards();renderLegend();
+}
+const baseUpdateAll=updateAll;
+updateAll=function(){ensureLegendState();checkMilestones();baseUpdateAll();renderLegend();};
+const baseAdvanceTime=advanceTime;
+advanceTime=function(months=1,skipEvent=false){ensureLegendState();for(let i=0;i<months;i++){simulateWorldMonth();baseAdvanceTime(1,skipEvent);if(s.retired||s.age>=30||s.fans>=1000000000)break;}}
+ensureLegendState();
+document.getElementById('country').innerHTML=countries.map(c=>`<option>${c}</option>`).join('');document.getElementById('country').addEventListener('change',updateCities);updateCities();load();
+</script>
+</body>
+</html>
+
+<script>window.show=show;window.buy=buy;window.renderRanking=renderRanking;window.advanceTime=advanceTime;window.createSong=createSong;window.createProject=createProject;window.postSocial=postSocial;window.retireArtist=retireArtist;</script>
