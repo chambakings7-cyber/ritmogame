@@ -771,6 +771,11 @@ advanceTime=function(months=1,skipEvent=false){ensureLegendState();for(let i=0;i
 ensureLegendState();
 document.getElementById('country').innerHTML=countries.map(c=>`<option>${c}</option>`).join('');document.getElementById('country').addEventListener('change',updateCities);updateCities();load();
 </script>
+  <script>
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("./sw.js");
+}
+  </script>
 </body>
 </html>
 
